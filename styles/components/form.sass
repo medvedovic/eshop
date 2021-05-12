@@ -1,0 +1,39 @@
+.form
+  display: flex
+  flex-direction: column
+  width: 50%
+  margin-bottom: 40px
+
+  & > .h2
+    font-size: 20px
+
+  &__row
+    width: 100%
+    display: flex
+    &:not(:first-child)
+      margin-top: 20px
+
+  &__checkbox-label
+    display: flex
+    align-items: center
+
+  &__checkbox
+    height: 20px
+    width: 20px
+    margin-right: 10px
+    border: 1px solid black
+    padding: 0
+
+  &__input
+    flex: 1 1 0
+    height: 40px
+    padding: 10px 20px
+    font-size: 20px
+    border: 1px solid black
+
+    &--compact
+      flex: 0 1 200px
+      min-width: 0
+
+    &:not(:first-child)
+      margin-left: 20px

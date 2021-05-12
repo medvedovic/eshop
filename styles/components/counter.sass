@@ -1,0 +1,25 @@
+.counter
+  display: inline-flex
+  height: 40px
+  border: 1px solid black
+
+  &__text
+    padding: 10px 20px
+    display: inline-flex
+    align-items: center
+
+  &__controls
+    display: flex
+    flex-direction: column
+    border-left: 1px solid black
+
+  &__control
+    height: 20px
+    width: 20px
+    display: inline-flex
+    justify-content: center
+    align-items: center
+    cursor: pointer
+
+    &:first-child
+      border-bottom: 1px solid black

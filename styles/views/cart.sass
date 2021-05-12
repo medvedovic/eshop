@@ -1,0 +1,74 @@
+.tabs
+  display: flex
+  height: 80px
+  align-items: center
+
+  &__item
+    height: 20px
+    flex: 1 1 0
+    text-align: center
+    font-size: 30px
+
+    &:not(:first-child)
+      border-left: 1px solid black
+
+.cart
+  &__list
+    display: flex
+    flex-direction: column
+
+  &__list-item
+    display: flex
+
+  &__item
+    display: flex
+    height: 120px
+    width: 100%
+
+  &__item-img
+    display: flex
+    width: 200px
+
+  &__item-text
+    flex: 2
+    display: flex
+    flex-direction: column
+    padding: 10px 0
+
+    .h2
+      font-size: 20px
+
+    & > *:not(:first-child)
+      margin-top: 10px
+
+  &__item-count
+    flex: 2
+    display: flex
+    padding: 10px 0
+
+  &__item-total
+    flex: 1
+    display: flex
+    font-size: 20px
+    text-transform: uppercase
+    padding: 10px 0
+
+  &__total
+    margin-top: 20px
+    border-top: 1px solid black
+    padding-top: 20px
+    font-size: 30px
+    text-align: right
+
+  .cart__navigation
+    border: 1px solid black
+    display: inline-flex
+    & > *:first-child
+      border-right: 1px solid black
+  &__back,
+  &__next
+    height: 40px
+    display: inline-flex
+    align-items: center
+    padding: 0 20px
+    font-size: 16px

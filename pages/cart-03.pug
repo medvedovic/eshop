@@ -1,0 +1,47 @@
+extends layout
+
+block content
+    -
+        const products = [{
+            price: 700,
+            count: 3
+        }, {
+            price: 80,
+            count: 1
+        }, {
+            price: 229,
+            count: 4
+        }]
+    .container
+        main
+            h1.h1 Váš nákup:
+
+            ul.tabs
+                each item in [1,2,3]
+                    li.tabs__item #{item}
+            .cart.recap
+                h2.h2 Rekapitulácia:
+                .recap__cols
+                    .recap__col
+                        section.section
+                            h3.h3 Kontaktné údaje:
+                            div Patrik Medveď
+                            div email: asdf@mail.com
+                            div tel.: 123456789
+                        section.section
+                            h3.h3 Adresa:
+                            div Botanická 68A
+                            div 60200 Brno
+                    .recap__col
+                        section.section
+                            h3.h3 Nákup:
+                            ul.recap__list
+                                each product, index in products
+                                    li.recap__list-item
+                                        .recap-item
+                                            .recap-item__title #{product.count}x Product title #{index + 1}
+                                            .recap-item__total #{product.count * product.price} czk
+                .cart__total Spolu: 3096 czk
+                .cart__navigation
+                    .cart__back < Späť
+                    .cart__next Odoslať objednávku >

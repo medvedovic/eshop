@@ -1,0 +1,55 @@
+.orders
+  &__categories
+    margin-bottom: 40px
+
+  &__category
+    text-decoration: underline
+    cursor: pointer
+
+.order
+  &--collapsed
+    height: 40px
+    display: flex
+    width: 100%
+  &__id
+    flex: 1
+    padding: 10px
+
+  &__status
+    flex: 1
+    padding: 10px
+
+  &__assignee
+    padding: 10px
+    flex: 1
+
+  &__action
+    padding: 10px
+    flex: 0
+
+  &--expanded
+    display: flex
+
+  &__details
+    display: flex
+    padding: 20px
+
+    .section
+      line-height: 1.25
+
+    .section:not(:first-child)
+      margin-top: 10px
+
+    h3
+      font-size: 20px
+      margin-bottom: 10px
+
+  &__details-col
+    width: 50%
+
+  &__details-item
+    display: flex
+    line-height: 1.25
+
+    &-title
+      flex: 1

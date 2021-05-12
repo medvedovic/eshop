@@ -1,0 +1,129 @@
+@import "styles/reset"
+
+$max-screen-width: 1440px
+
+@mixin list-reset
+  margin: 0
+  padding: 0
+  text-indent: 0
+  list-style-type: none
+
+@import "styles/commons"
+@import "styles/navigation"
+@import "styles/components"
+
+.main
+  padding-bottom: 80px
+
+  &__section
+    margin-top: 40px
+
+    &:first-child
+      margin-top: 0
+
+.search
+  margin-bottom: 40px
+
+  &__box
+    width: 100%
+    height: 60px
+    padding: 20px
+    font-size: 20px
+    border: 1px solid black
+
+.grid
+  @include list-reset
+  display: grid
+  grid-template-columns: repeat(4, 1fr)
+
+  &__item
+    display: flex
+    position: relative
+
+    &:before
+      content: ''
+      display: block
+      width: 100%
+      padding-top: 100%
+      z-index: -1
+
+    &-content
+      position: absolute
+      top: 0
+      left: 0
+      right: 0
+      bottom: 0
+      display: flex
+
+    .grid:not(.grid--compact) &
+      &:first-child
+        grid-row: 1 / 3
+        grid-column: 1 / 3
+      &:nth-child(2)
+        grid-row: 1 / 2
+        grid-column: 3 / 4
+      &:nth-child(3)
+        grid-row: 1 / 2
+        grid-column: 4 / 5
+      &:nth-child(4)
+        grid-row: 2 / 3
+        grid-column: 3 / 4
+      &:nth-child(5)
+        grid-row: 2 / 3
+        grid-column: 4 / 5
+
+.cart-btn
+  height: 40px
+  font-size: 20px
+  line-height: 1
+  padding: 10px 20px
+  background: transparent
+  border: 1px solid black
+  cursor: pointer
+
+.tile
+  display: flex
+  position: relative
+  width: 100%
+
+  &__title-box
+    padding: 20px
+    height: 80px
+    font-size: 20px
+    position: absolute
+    top: 2px
+    left: 2px
+    right: 2px
+    background-color: white
+    display: flex
+    justify-content: space-between
+
+  &__title-left
+    display: flex
+    flex-direction: column
+
+  &__title
+    margin-bottom: 10px
+
+  &__price
+    text-transform: uppercase
+
+  &__to-cart
+    display: flex
+
+  &__img
+    display: flex
+    width: 100%
+
+.to-cart-btn
+  display: inline-flex
+  height: 20px
+  padding: 0 10px
+  background: none
+  border: 1px solid black
+  cursor: pointer
+  align-items: center
+
+@import "styles/views/cart"
+@import "styles/views/orders"
+@import "styles/views/product"

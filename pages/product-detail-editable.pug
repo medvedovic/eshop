@@ -1,0 +1,18 @@
+extends layout
+
+block content
+    .container
+        main.main.product
+
+            .product__wrapper
+                .product__img
+                    .placeholder
+                        <svg><line x1="0" y1="0" x2="100%" y2="100%" stroke-width="2"></line><line x1="0" y1="100%" x2="100%" y2="0" stroke-width="2"></line></svg>
+                .product__details.details.details--editable
+                    .details__top
+                        .details__title.details__title--editable Vložte názov produktu
+                        .details__head
+                            .details__price.details__price--editable Vložte cenu v czk
+                            .details__count
+                        .details__text.details__text--editable Vložte popis produktu
+                    button.details__submit Vytvoriť
