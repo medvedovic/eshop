@@ -1,3 +1,5 @@
+@use "../styles/mixins"
+
 .navigation
   height: 80px
   margin-bottom: 40px
@@ -8,7 +10,7 @@
     display: flex
 
   &__list
-    @include list-reset
+    @include mixins.list-reset
     display: flex
     align-items: center
 
