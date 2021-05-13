@@ -1,6 +1,6 @@
 import React from "react";
 import styles from "./Navigation.module.sass";
-import classNames from "classnames";
+import { Inline, Spacing } from "./Inline";
 
 type NavigationProps = {
   readonly isAdmin: boolean;
@@ -9,8 +9,8 @@ type NavigationProps = {
 export const Navigation: React.FC<NavigationProps> = ({ isAdmin }) => (
   <div className="container">
     <nav className={styles.navigation}>
-      <div className="inline" data-spacing="20px">
-        <div className={classNames(styles.navigation__logo, "inline__item")}>
+      <Inline spacing={Spacing.L}>
+        <div className={styles.navigation__logo}>
           <div className="logo">
             <div className="placeholder">
               <svg>
@@ -21,7 +21,7 @@ export const Navigation: React.FC<NavigationProps> = ({ isAdmin }) => (
           </div>
         </div>
         {isAdmin && (
-          <ul className={classNames(styles.navigation__list, "inline__item")}>
+          <ul className={styles.navigation__list}>
             <li className={styles["navigation__list-item"]}>
               <a href="#" className={styles.navigation__link}>
                 Objednávky
@@ -29,7 +29,7 @@ export const Navigation: React.FC<NavigationProps> = ({ isAdmin }) => (
             </li>
           </ul>
         )}
-      </div>
+      </Inline>
       <div className={styles["navigation__cart-btn"]}>
         <button className="button.cart-btn">Košík: 0 czk</button>
       </div>
