@@ -19,7 +19,7 @@ const MainSection: React.FC<MainSectionProps> = ({ title, children }) => (
 );
 
 type IndexProps = {
-  readonly products: readonly ProductViewModel[];
+  readonly products: readonly ProductListingViewModel[];
 };
 
 const Index: NextPage<IndexProps> = ({ products }) => (
@@ -34,6 +34,30 @@ const Index: NextPage<IndexProps> = ({ products }) => (
           <input className="search__box" placeholder="Vyhľadať" />
         </div>
         <MainSection title="Category #1">
+          <ProductGrid>
+            {products.map((product, index) => (
+              <ProductTile
+                photoUrl={product.photoUrl}
+                key={index}
+                title={product.name}
+                price={product.price}
+                productUrl={`/product/${product.productUrl}`}
+              />
+            ))}
+            {products
+              .filter((_, i) => i < 2)
+              .map((product, index) => (
+                <ProductTile
+                  photoUrl={product.photoUrl}
+                  key={index}
+                  title={product.name}
+                  price={product.price}
+                  productUrl={`/product/${product.productUrl}`}
+                />
+              ))}
+          </ProductGrid>
+        </MainSection>
+        <MainSection title="Category #1">
           <ProductGrid isCompact={products.length < 5}>
             {products.map((product, index) => (
               <ProductTile
@@ -41,9 +65,20 @@ const Index: NextPage<IndexProps> = ({ products }) => (
                 key={index}
                 title={product.name}
                 price={product.price}
-                productUrl={`product/${product.productUrl}`}
+                productUrl={`/product/${product.productUrl}`}
               />
             ))}
+            {products
+              .filter((_, i) => i < 1)
+              .map((product, index) => (
+                <ProductTile
+                  photoUrl={product.photoUrl}
+                  key={index}
+                  title={product.name}
+                  price={product.price}
+                  productUrl={`/product/${product.productUrl}`}
+                />
+              ))}
           </ProductGrid>
         </MainSection>
       </main>
@@ -51,7 +86,7 @@ const Index: NextPage<IndexProps> = ({ products }) => (
   </>
 );
 
-type ProductViewModel = {
+type ProductListingViewModel = {
   readonly name: string;
   readonly photoUrl: string;
   readonly price: number;
