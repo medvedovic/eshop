@@ -22,40 +22,40 @@ type IndexProps = {
   readonly products: readonly ProductViewModel[];
 };
 
-const Index: NextPage<IndexProps> = ({ products }) => {
-  return (
-    <>
-      <Head>
-        <title>pb175 eshop</title>
-      </Head>
-      <Navigation isAdmin={false} />
-      <div className="container">
-        <main className="main">
-          <div className="search">
-            <input className="search__box" placeholder="Vyhľadať" />
-          </div>
-          <MainSection title="Category #1">
-            <ProductGrid isCompact={products.length < 5}>
-              {products.map((product, index) => (
-                <ProductTile
-                  photoUrl={product.photoUrl}
-                  key={index}
-                  title={product.name}
-                  price={product.price}
-                />
-              ))}
-            </ProductGrid>
-          </MainSection>
-        </main>
-      </div>
-    </>
-  );
-};
+const Index: NextPage<IndexProps> = ({ products }) => (
+  <>
+    <Head>
+      <title>pb175 eshop</title>
+    </Head>
+    <Navigation isAdmin={false} />
+    <div className="container">
+      <main className="main">
+        <div className="search">
+          <input className="search__box" placeholder="Vyhľadať" />
+        </div>
+        <MainSection title="Category #1">
+          <ProductGrid isCompact={products.length < 5}>
+            {products.map((product, index) => (
+              <ProductTile
+                photoUrl={product.photoUrl}
+                key={index}
+                title={product.name}
+                price={product.price}
+                productUrl={`product/${product.productUrl}`}
+              />
+            ))}
+          </ProductGrid>
+        </MainSection>
+      </main>
+    </div>
+  </>
+);
 
 type ProductViewModel = {
-  readonly price: number;
-  readonly photoUrl: string;
   readonly name: string;
+  readonly photoUrl: string;
+  readonly price: number;
+  readonly productUrl: string;
 };
 
 export const getStaticProps: GetStaticProps<IndexProps> = async () => {
@@ -64,9 +64,10 @@ export const getStaticProps: GetStaticProps<IndexProps> = async () => {
   return {
     props: {
       products: response.items.map((item) => ({
-        price: item.price.value,
-        photoUrl: item.photo.value[0].url,
         name: item.name.value,
+        photoUrl: item.photo.value[0].url,
+        price: item.price.value,
+        productUrl: item.system.codename,
       })),
     },
   };
