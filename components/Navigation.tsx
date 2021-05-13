@@ -1,6 +1,7 @@
 import React from "react";
 import styles from "./Navigation.module.sass";
-import { Inline, Spacing } from "./Inline";
+import { Inline } from "./Inline";
+import { Spacing } from "../constants/ui";
 
 type NavigationProps = {
   readonly isAdmin: boolean;

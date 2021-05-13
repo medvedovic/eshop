@@ -1,10 +1,7 @@
 import React from "react";
 import styles from "./Inline.module.sass";
 import classNames from "classnames";
-
-export enum Spacing {
-  L = "20px",
-}
+import { Spacing } from "../constants/ui";
 
 type InlineProps = {
   readonly spacing: Spacing;

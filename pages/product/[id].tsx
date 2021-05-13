@@ -7,7 +7,9 @@ import { Counter } from "../../components/Counter";
 import { GetStaticPaths, GetStaticProps } from "next";
 import { client } from "../../constants/client";
 import { Product as ProductModel } from "../../models/product";
-import { Inline, Spacing } from "../../components/Inline";
+import { Inline } from "../../components/Inline";
+import { Spacing } from "../../constants/ui";
+import { Stack } from "../../components/Stack";
 
 type ProductDetailViewModel = {
   readonly name: string;
@@ -40,17 +42,19 @@ const Product: React.FC<ProductProps> = ({ product }) => (
           <Image src={product.photoUrl} width={1080} height={810} />
         </div>
         <div className="product__details details">
-          <div className="details__title">
-            <h1 className="h1">{product.name}</h1>
-          </div>
-          <div className="details__head">
-            <div className="details__price">{product.price} czk</div>
-            <div className="details__count">
-              <Counter />
-            </div>
-          </div>
-          <button className="details__btn">Vložiť do košíku</button>
-          <div className="details__text">{product.description}</div>
+          <Stack spacing={Spacing.L}>
+            <h1 className="details__title">{product.name}</h1>
+            <Stack spacing={Spacing.XL}>
+              <div className="details__head">
+                <div className="details__price">{product.price} czk</div>
+                <div className="details__count">
+                  <Counter />
+                </div>
+              </div>
+              <button className="details__btn">Vložiť do košíku</button>
+            </Stack>
+            <div className="details__text">{product.description}</div>
+          </Stack>
         </div>
       </main>
     </div>
