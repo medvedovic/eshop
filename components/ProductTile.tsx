@@ -1,21 +1,22 @@
 import React from "react";
+import Image from "next/image";
 import styles from "./ProductTile.module.sass";
 import classNames from "classnames";
 
 type ProductTileProps = {
   readonly title: string;
   readonly price: number;
+  readonly photoUrl?: string;
 };
 
-export const ProductTile: React.FC<ProductTileProps> = ({ title, price }) => (
+export const ProductTile: React.FC<ProductTileProps> = ({
+  title,
+  price,
+  photoUrl,
+}) => (
   <div className={styles.tile}>
     <div className={styles.tile__img}>
-      <div className="placeholder">
-        <svg>
-          <line x1="0" y1="0" x2="100%" y2="100%" strokeWidth="2" />
-          <line x1="0" y1="100%" x2="100%" y2="0" strokeWidth="2" />
-        </svg>
-      </div>
+      <Image src={photoUrl} layout="fill" />
     </div>
     <div className={styles["tile__title-box"]}>
       <div className={styles["tile__title-left"]}>

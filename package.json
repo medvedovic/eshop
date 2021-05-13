@@ -10,13 +10,16 @@
     "prettify": "yarn prettier --check ."
   },
   "dependencies": {
+    "@kentico/kontent-delivery": "^10.4.1",
     "classnames": "^2.3.1",
     "next": "10.2.0",
     "react": "17.0.2",
     "react-dom": "17.0.2",
+    "rxjs": "^7.0.1",
     "sass": "^1.32.12"
   },
   "devDependencies": {
+    "@kentico/kontent-model-generator": "^3.2.0",
     "@types/react": "^17.0.5",
     "@typescript-eslint/eslint-plugin": "^4.23.0",
     "@typescript-eslint/parser": "^4.23.0",
