@@ -4,7 +4,7 @@ import React from "react";
 import { ProductTile } from "../components/ProductTile";
 import { ProductGrid } from "../components/ProductGrid";
 import { GetStaticProps, NextPage } from "next";
-import { client } from "../constants/client";
+import { deliveryClient } from "../constants/clients";
 import { Product } from "../models/product";
 
 type MainSectionProps = {
@@ -94,7 +94,7 @@ type ProductListingViewModel = {
 };
 
 export const getStaticProps: GetStaticProps<IndexProps> = async () => {
-  const response = await client.items<Product>().toPromise();
+  const response = await deliveryClient.items<Product>().toPromise();
 
   return {
     props: {

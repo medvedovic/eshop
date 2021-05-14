@@ -5,7 +5,7 @@ import { GetServerSideProps, NextPage } from "next";
 import { Inline } from "../../../components/Inline";
 import Link from "next/link";
 import Image from "next/image";
-import { client } from "../../../constants/client";
+import { deliveryClient } from "../../../constants/clients";
 import { Product as ProductModel } from "../../../models/product";
 import { Spacing } from "../../../constants/ui";
 import { Stack } from "../../../components/Stack";
@@ -109,7 +109,7 @@ export const getServerSideProps: GetServerSideProps<
   ProductProps,
   ProductParams
 > = async (context) => {
-  const response = await client
+  const response = await deliveryClient
     .items<ProductModel>()
     .inFilter("system.codename", [context.params.id])
     .toPromise();

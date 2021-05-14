@@ -5,7 +5,7 @@ import Link from "next/link";
 import { Navigation } from "../../components/Navigation";
 import { Counter } from "../../components/Counter";
 import { GetStaticPaths, GetStaticProps } from "next";
-import { client } from "../../constants/client";
+import { deliveryClient } from "../../constants/clients";
 import { Product as ProductModel } from "../../models/product";
 import { Inline } from "../../components/Inline";
 import { Spacing } from "../../constants/ui";
@@ -77,7 +77,7 @@ type ProductParams = {
 };
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const response = await client
+  const response = await deliveryClient
     .items<ProductModel>()
     .type("product")
     .toPromise();
@@ -95,7 +95,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
 export const getStaticProps: GetStaticProps<ProductProps, ProductParams> =
   async (context) => {
-    const response = await client
+    const response = await deliveryClient
       .items<ProductModel>()
       .inFilter("system.codename", [context.params.id])
       .toPromise();
