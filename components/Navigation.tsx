@@ -2,15 +2,21 @@ import React from "react";
 import styles from "./Navigation.module.sass";
 import { Inline } from "./Inline";
 import { Spacing } from "../constants/ui";
+import { signout } from "next-auth/client";
 
 type NavigationProps = {
   readonly isAdmin: boolean;
 };
 
+const onSignOut: React.MouseEventHandler<HTMLAnchorElement> = (e) => {
+  e.preventDefault();
+  signout();
+};
+
 export const Navigation: React.FC<NavigationProps> = ({ isAdmin }) => (
   <div className="container">
     <nav className={styles.navigation}>
-      <Inline spacing={Spacing.L}>
+      <Inline spacing={Spacing.L} center>
         <div className={styles.navigation__logo}>
           <div className="logo">
             <div className="placeholder">
@@ -22,13 +28,14 @@ export const Navigation: React.FC<NavigationProps> = ({ isAdmin }) => (
           </div>
         </div>
         {isAdmin && (
-          <ul className={styles.navigation__list}>
-            <li className={styles["navigation__list-item"]}>
-              <a href="#" className={styles.navigation__link}>
-                Objednávky
-              </a>
-            </li>
-          </ul>
+          <a href="#" className={styles.navigation__link}>
+            Objednávky
+          </a>
+        )}
+        {isAdmin && (
+          <a href="#" onClick={onSignOut} className={styles.navigation__link}>
+            Odhlásiť
+          </a>
         )}
       </Inline>
       <div className={styles["navigation__cart-btn"]}>

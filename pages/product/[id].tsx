@@ -10,6 +10,8 @@ import { Product as ProductModel } from "../../models/product";
 import { Inline } from "../../components/Inline";
 import { Spacing } from "../../constants/ui";
 import { Stack } from "../../components/Stack";
+import { useRouter } from "next/router";
+import { useSession } from "next-auth/client";
 
 type ProductDetailViewModel = {
   readonly name: string;
@@ -22,44 +24,53 @@ type ProductProps = {
   readonly product: ProductDetailViewModel;
 };
 
-const Product: React.FC<ProductProps> = ({ product }) => (
-  <>
-    <Head>
-      <title>{product.name} | pb175 eshop</title>
-    </Head>
-    <Navigation isAdmin={false} />
-    <div className="container">
-      <main className="main product">
-        <header className="product__header">
-          <Inline spacing={Spacing.L} center>
-            <Link href="/">
-              <a className="product__back-btn">&lt; Späť na ponuku</a>
-            </Link>
-            <h1 className="product__title">{product.name}</h1>
-          </Inline>
-        </header>
-        <div className="product__img">
-          <Image src={product.photoUrl} width={1080} height={810} />
-        </div>
-        <div className="product__details details">
-          <Stack spacing={Spacing.L}>
-            <h1 className="details__title">{product.name}</h1>
-            <Stack spacing={Spacing.XL}>
-              <div className="details__head">
-                <div className="details__price">{product.price} czk</div>
-                <div className="details__count">
-                  <Counter />
+const Product: React.FC<ProductProps> = ({ product }) => {
+  const [session, loading] = useSession();
+  const router = useRouter();
+  return (
+    <>
+      <Head>
+        <title>{product.name} | pb175 eshop</title>
+      </Head>
+      <Navigation isAdmin={!!session} />
+      <div className="container">
+        <main className="main product">
+          <header className="product__header">
+            <Inline spacing={Spacing.L} center>
+              <Link href="/">
+                <a className="product__back-btn">&lt; Späť na ponuku</a>
+              </Link>
+              <h1 className="product__title">{product.name}</h1>
+              {session && !loading && (
+                <Link href={`${router.asPath}/edit`}>
+                  <a className="product__back-btn">Upraviť</a>
+                </Link>
+              )}
+            </Inline>
+          </header>
+          <div className="product__img">
+            <Image src={product.photoUrl} width={1080} height={810} />
+          </div>
+          <div className="product__details details">
+            <Stack spacing={Spacing.L}>
+              <h1 className="details__title">{product.name}</h1>
+              <Stack spacing={Spacing.XL}>
+                <div className="details__head">
+                  <div className="details__price">{product.price} czk</div>
+                  <div className="details__count">
+                    <Counter />
+                  </div>
                 </div>
-              </div>
-              <button className="details__btn">Vložiť do košíku</button>
+                <button className="details__btn">Vložiť do košíku</button>
+              </Stack>
+              <div className="details__text">{product.description}</div>
             </Stack>
-            <div className="details__text">{product.description}</div>
-          </Stack>
-        </div>
-      </main>
-    </div>
-  </>
-);
+          </div>
+        </main>
+      </div>
+    </>
+  );
+};
 
 type ProductParams = {
   readonly id: string;

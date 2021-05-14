@@ -9,6 +9,8 @@ import { client } from "../../../constants/client";
 import { Product as ProductModel } from "../../../models/product";
 import { Spacing } from "../../../constants/ui";
 import { Stack } from "../../../components/Stack";
+import { useSession } from "next-auth/client";
+import { useRouter } from "next/router";
 
 type ProductDetailViewModel = {
   readonly name: string;
@@ -24,66 +26,80 @@ type ProductProps = {
 // eslint-disable-next-line @typescript-eslint/no-empty-function
 const noOperation = (): void => {};
 
-// todo: Is user authorized
-const Edit: NextPage<ProductProps> = ({ product }) => (
-  <>
-    <Head>
-      <title>pb175 eshop</title>
-    </Head>
-    <Navigation isAdmin />
-    <div className="container">
-      <main className="main product">
-        <header className="product__header product__header--edit">
-          <Inline spacing={Spacing.L} center>
-            <Link href="/">
-              <a className="product__back-btn">&lt; Späť na ponuku</a>
-            </Link>
-            <input
-              className="product__title product__title--edit"
-              placeholder="Názov"
-              value={product.name}
-              onChange={noOperation}
-            />
-          </Inline>
-          <Inline spacing={Spacing.L} center>
-            <button className="product__back-btn">Uložiť zmeny</button>
-            <button className="product__back-btn">Zahodiť zmeny</button>
-          </Inline>
-        </header>
-        <div className="product__img">
-          <Image src={product.photoUrl} width={1080} height={810} />
-        </div>
-        <div className="product__details details">
-          <Stack spacing={Spacing.L}>
-            <input
-              className="details__title details__title--edit"
-              value={product.name}
-              onChange={noOperation}
-              placeholder="Vložte názov produktu"
-            />
-            <div className="details__price">
+const Edit: NextPage<ProductProps> = ({ product }) => {
+  const router = useRouter();
+  const [session, loading] = useSession();
+
+  React.useEffect(() => {
+    if (!session) {
+      router.back();
+    }
+  }, [router, session]);
+
+  if (!session || loading) {
+    return null;
+  }
+
+  return (
+    <>
+      <Head>
+        <title>pb175 eshop</title>
+      </Head>
+      <Navigation isAdmin />
+      <div className="container">
+        <main className="main product">
+          <header className="product__header product__header--edit">
+            <Inline spacing={Spacing.L} center>
+              <Link href="/">
+                <a className="product__back-btn">&lt; Späť na ponuku</a>
+              </Link>
               <input
-                className="details__price details__price--edit"
-                placeholder="Vložte cenu v czk"
-                size={5}
-                pattern="[0-9]*"
-                value={product.price.toString()}
+                className="product__title product__title--edit"
+                placeholder="Názov"
+                value={product.name}
                 onChange={noOperation}
               />
-              czk
-            </div>
-            <textarea
-              placeholder="Vložte popis produktu"
-              value={product.description}
-              className="details__text details__text--edit"
-              onChange={noOperation}
-            />
-          </Stack>
-        </div>
-      </main>
-    </div>
-  </>
-);
+            </Inline>
+            <Inline spacing={Spacing.L} center>
+              <button className="product__back-btn">Uložiť zmeny</button>
+              <button className="product__back-btn">Zahodiť zmeny</button>
+            </Inline>
+          </header>
+          <div className="product__img">
+            <Image src={product.photoUrl} width={1080} height={810} />
+          </div>
+          <div className="product__details details">
+            <Stack spacing={Spacing.L}>
+              <input
+                className="details__title details__title--edit"
+                value={product.name}
+                onChange={noOperation}
+                placeholder="Vložte názov produktu"
+              />
+              <div className="details__price">
+                <input
+                  className="details__price details__price--edit"
+                  placeholder="Vložte cenu v czk"
+                  size={5}
+                  pattern="[0-9]*"
+                  value={product.price.toString()}
+                  onChange={noOperation}
+                />
+                czk
+              </div>
+              <textarea
+                placeholder="Vložte popis produktu"
+                value={product.description}
+                className="details__text details__text--edit"
+                onChange={noOperation}
+              />
+            </Stack>
+          </div>
+        </main>
+      </div>
+    </>
+  );
+};
 
 type ProductParams = {
   readonly id: string;
