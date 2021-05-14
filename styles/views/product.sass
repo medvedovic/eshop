@@ -8,6 +8,9 @@
     display: flex
     align-items: center
 
+    &--edit
+      justify-content: space-between
+
   &__back-btn
     display: inline-flex
     align-items: center
@@ -19,6 +22,11 @@
     display: inline-flex
     font-size: 40px
     line-height: 1.5
+
+    &--edit
+      border: none
+      padding: 0 10px
+      box-shadow: inset 0px -1px black
 
   &__img
     grid-area: photo
@@ -32,36 +40,34 @@
     grid-area: details
 
 .details
-  &--editable
-    display: flex
-    flex-direction: column
-    justify-content: space-between
-
   &__title
-    &--editable
-      border: 1px solid black
+    font-size: 20px
+    line-height: 1.5
+
+    &--edit
+      border: none
       padding: 0 10px
-      margin-bottom: 20px
-      height: 40px
-      display: flex
-      align-items: center
-      color: darkgrey
+      box-shadow: inset 0px -1px black
+
+      &::placeholder
+        color: darkgrey
 
   &__head
     display: flex
     justify-content: space-between
 
   &__price
+    display: inline-flex
     font-size: 40px
 
-    &--editable
-      font-size: unset
-      border: 1px solid black
-      padding: 0 10px
-      height: 40px
+    &--edit
       display: flex
-      align-items: center
-      color: darkgrey
+      border: none
+      padding: 0 10px
+      box-shadow: inset 0px -1px black
+
+      &::placeholder
+        color: darkgrey
 
   &__btn
     width: 100%
@@ -77,12 +83,15 @@
 
   &__text
     line-height: 1.25
+    resize: none
 
-    &--editable
+    &--edit
       border: 1px solid black
       padding: 10px
-      color: darkgrey
-      height: 80px
+      height: 200px
+
+      &::placeholder
+        color: darkgrey
 
   &__submit
     width: 100%
