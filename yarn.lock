@@ -113,6 +113,13 @@
     parse5 "6.0.1"
     reflect-metadata "0.1.13"
 
+"@kentico/kontent-management@^0.4.10":
+  version "0.4.10"
+  resolved "https://registry.yarnpkg.com/@kentico/kontent-management/-/kontent-management-0.4.10.tgz#5fdc24cd01bceaaab39349263c0c038295964422"
+  integrity sha512-7HdlAcqawO9TCQlahcpABT4PJMXnSrx3BySTlk9WmgfgF7KbedTLoYOPeu0815abECuxXRGVV6gM6ts041gFgg==
+  dependencies:
+    "@kentico/kontent-core" "8.1.0"
+
 "@kentico/kontent-model-generator@^3.2.0":
   version "3.2.0"
   resolved "https://registry.yarnpkg.com/@kentico/kontent-model-generator/-/kontent-model-generator-3.2.0.tgz#89779c261f64208b95cd70d82a2afeed59a86f06"
