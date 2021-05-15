@@ -33,7 +33,12 @@ export const Navigation: React.FC<NavigationProps> = ({ isAdmin }) => (
           </a>
         )}
         {isAdmin && (
-          <a href="#" onClick={onSignOut} className={styles.navigation__link}>
+          <a
+            id="sign-out"
+            href="#"
+            onClick={onSignOut}
+            className={styles.navigation__link}
+          >
             Odhlásiť
           </a>
         )}

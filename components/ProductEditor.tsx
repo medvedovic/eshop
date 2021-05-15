@@ -67,7 +67,11 @@ export const ProductEditor: React.FC<ProductEditorProps> = ({ product }) => {
           />
         </Inline>
         <Inline spacing={Spacing.L} center>
-          <button onClick={submit} className="product__back-btn">
+          <button
+            onClick={submit}
+            className="product__back-btn"
+            id="submit-changes"
+          >
             Uložiť zmeny
           </button>
           <button onClick={() => router.back()} className="product__back-btn">

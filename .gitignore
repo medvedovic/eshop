@@ -35,3 +35,5 @@ yarn-error.log*
 
 # webstorm
 /.idea
+
+cypress.env.json
