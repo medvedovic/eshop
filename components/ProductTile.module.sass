@@ -1,3 +1,5 @@
+@use "../styles/fonts"
+
 .tile
   display: flex
   position: relative
@@ -20,6 +22,7 @@
     flex-direction: column
 
   &__title
+    font-family: fonts.$heading
     margin-bottom: 10px
 
   &__price
