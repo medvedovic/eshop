@@ -7,6 +7,7 @@ import { GetStaticProps, NextPage } from "next";
 import { deliveryClient } from "../constants/clients";
 import { Product } from "../models/product";
 import { useSession } from "next-auth/client";
+import { groupByMultiple } from "../utils/groupBy";
 
 type MainSectionProps = {
   readonly title: string;
@@ -19,11 +20,16 @@ const MainSection: React.FC<MainSectionProps> = ({ title, children }) => (
   </section>
 );
 
+type GroupedProduct = readonly [
+  group: string,
+  products: readonly ProductListingViewModel[]
+];
+
 type IndexProps = {
-  readonly products: readonly ProductListingViewModel[];
+  readonly groupedProducts: readonly GroupedProduct[];
 };
 
-const Index: NextPage<IndexProps> = ({ products }) => {
+const Index: NextPage<IndexProps> = ({ groupedProducts }) => {
   const [session] = useSession();
   return (
     <>
@@ -36,20 +42,10 @@ const Index: NextPage<IndexProps> = ({ products }) => {
           <div className="search">
             <input className="search__box" placeholder="Vyhľadať" />
           </div>
-          <MainSection title="Category #1">
-            <ProductGrid>
-              {products.map((product, index) => (
-                <ProductTile
-                  photoUrl={product.photoUrl}
-                  key={index}
-                  title={product.name}
-                  price={product.price}
-                  productUrl={`/product/${product.productUrl}`}
-                />
-              ))}
-              {products
-                .filter((_, i) => i < 2)
-                .map((product, index) => (
+          {groupedProducts.map(([group, products], index) => (
+            <MainSection title={group} key={index}>
+              <ProductGrid isCompact={products.length < 5}>
+                {products.map((product, index) => (
                   <ProductTile
                     photoUrl={product.photoUrl}
                     key={index}
@@ -58,32 +54,9 @@ const Index: NextPage<IndexProps> = ({ products }) => {
                     productUrl={`/product/${product.productUrl}`}
                   />
                 ))}
-            </ProductGrid>
-          </MainSection>
-          <MainSection title="Category #1">
-            <ProductGrid isCompact={products.length < 5}>
-              {products.map((product, index) => (
-                <ProductTile
-                  photoUrl={product.photoUrl}
-                  key={index}
-                  title={product.name}
-                  price={product.price}
-                  productUrl={`/product/${product.productUrl}`}
-                />
-              ))}
-              {products
-                .filter((_, i) => i < 1)
-                .map((product, index) => (
-                  <ProductTile
-                    photoUrl={product.photoUrl}
-                    key={index}
-                    title={product.name}
-                    price={product.price}
-                    productUrl={`/product/${product.productUrl}`}
-                  />
-                ))}
-            </ProductGrid>
-          </MainSection>
+              </ProductGrid>
+            </MainSection>
+          ))}
         </main>
       </div>
     </>
@@ -97,17 +70,38 @@ type ProductListingViewModel = {
   readonly productUrl: string;
 };
 
+const getTaxonomyKeys = (product: Product) =>
+  product.productCategories.value.map((taxonomy) => taxonomy.name);
+
+const toProductViewModel = (product: Product): ProductListingViewModel => ({
+  name: product.name.value,
+  photoUrl: product.photo.value[0].url,
+  price: product.price.value,
+  productUrl: product.system.codename,
+});
+
+const toGroupedProductViewModels = ([group, products]: readonly [
+  group: string,
+  products: readonly Product[]
+]): readonly [group: string, products: readonly ProductListingViewModel[]] => [
+  group,
+  products.map(toProductViewModel),
+];
+
 export const getStaticProps: GetStaticProps<IndexProps> = async () => {
-  const response = await deliveryClient.items<Product>().toPromise();
+  const response = await deliveryClient
+    .items<Product>()
+    .type("product")
+    .toPromise();
+
+  const groupedProductViewModels = groupByMultiple(
+    response.items,
+    getTaxonomyKeys
+  ).map(toGroupedProductViewModels);
 
   return {
     props: {
-      products: response.items.map((item) => ({
-        name: item.name.value,
-        photoUrl: item.photo.value[0].url,
-        price: item.price.value,
-        productUrl: item.system.codename,
-      })),
+      groupedProducts: groupedProductViewModels,
     },
   };
 };
