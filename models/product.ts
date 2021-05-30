@@ -9,4 +9,15 @@ export class Product extends ContentItem {
   public description: Elements.TextElement;
   public photo: Elements.AssetsElement;
   public name: Elements.TextElement;
+  public productCategories: Elements.TaxonomyElement;
+  constructor() {
+    super({
+      propertyResolver: (elementName: string) => {
+        if (elementName === "product_categories") {
+          return "productCategories";
+        }
+        return elementName;
+      },
+    });
+  }
 }
