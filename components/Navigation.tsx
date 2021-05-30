@@ -3,6 +3,7 @@ import styles from "./Navigation.module.sass";
 import { Inline } from "./Inline";
 import { Spacing } from "../constants/ui";
 import { signout } from "next-auth/client";
+import { Cart } from "iconoir-react";
 
 type NavigationProps = {
   readonly isAdmin: boolean;
@@ -44,7 +45,10 @@ export const Navigation: React.FC<NavigationProps> = ({ isAdmin }) => (
         )}
       </Inline>
       <div className={styles["navigation__cart-btn"]}>
-        <button className="button.cart-btn">Košík: 0 czk</button>
+        <button className="button cart-btn">
+          <Cart size={30} />
+          Košík: 0 czk
+        </button>
       </div>
     </nav>
   </div>

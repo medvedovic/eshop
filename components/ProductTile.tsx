@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import styles from "./ProductTile.module.sass";
 import classNames from "classnames";
+import { Plus } from "iconoir-react";
 
 type ProductTileProps = {
   readonly photoUrl?: string;
@@ -28,7 +29,10 @@ export const ProductTile: React.FC<ProductTileProps> = ({
           <div className={styles.tile__price}>{price} czk</div>
         </div>
         <div className={styles["tile__to-cart"]}>
-          <button className="to-cart-btn">Vložiť do košíku</button>
+          <button className="to-cart-btn">
+            <Plus size={20} />
+            Vložiť do košíku
+          </button>
         </div>
       </div>
     </a>
