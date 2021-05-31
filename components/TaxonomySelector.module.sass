@@ -1,0 +1,30 @@
+@use "../styles/variables"
+.taxonomy-selector
+
+  &__title
+    font-size: 20px
+    margin-bottom: 5px
+
+  &__label
+    align-self: flex-start
+    display: inline-flex
+    align-items: center
+    margin-left: -5px
+    border-radius: 2px
+    height: 25px
+    padding: 5px
+
+    font-size: 15px
+    cursor: pointer
+
+    &:hover
+      background-color: rgba(variables.$adjacent-color, .1)
+
+  &__check-box
+    height: 15px
+    width: 15px
+    margin: 0 5px 0 0
+    cursor: pointer
+
+    .taxonomy-selector__label: hover &
+      border-color: darken(variables.$adjacent-color, 50)

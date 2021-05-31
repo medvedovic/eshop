@@ -4,17 +4,25 @@ import { Spacing } from "../constants/ui";
 import Link from "next/link";
 import Image from "next/image";
 import { Stack } from "./Stack";
-import type { ProductDetailViewModel } from "../viewModels/ProductDetail";
 import { useRouter } from "next/router";
 import { createNewVersion } from "../actions/createNewVersion";
 import { updateProduct } from "../actions/updateProduct";
 import { publishProduct } from "../actions/publishProduct";
+import type { TaxonomyViewModel } from "../viewModels/Taxonomy";
+import { getTaxonomySelector } from "./TaxonomySelector";
+import type { ProductEditViewModel } from "../viewModels/ProductEdit";
 
 type ProductEditorProps = {
-  readonly product: ProductDetailViewModel;
+  readonly product: ProductEditViewModel;
+  readonly taxonomies: readonly TaxonomyViewModel[];
 };
 
-export const ProductEditor: React.FC<ProductEditorProps> = ({ product }) => {
+const TaxonomySelector = getTaxonomySelector();
+
+export const ProductEditor: React.FC<ProductEditorProps> = ({
+  product,
+  taxonomies,
+}) => {
   const router = useRouter();
   const [productName, setProductName] = React.useState(product.name);
   const [productPrice, setProductPrice] = React.useState(
@@ -23,6 +31,7 @@ export const ProductEditor: React.FC<ProductEditorProps> = ({ product }) => {
   const [productDescription, setProductDescription] = React.useState(
     product.description
   );
+  const [productTaxonomies, setProductTaxonomies] = React.useState(product.taxonomies);
   const changeProductName: React.ChangeEventHandler<HTMLInputElement> = (
     event
   ) => {
@@ -48,6 +57,7 @@ export const ProductEditor: React.FC<ProductEditorProps> = ({ product }) => {
       productName,
       productPrice: parseInt(productPrice),
       productDescription,
+      productTaxonomies,
     });
     await publishProduct(productCodename);
   };
@@ -106,6 +116,14 @@ export const ProductEditor: React.FC<ProductEditorProps> = ({ product }) => {
             value={productDescription}
             className="details__text details__text--edit"
             onChange={changeProductDescription}
+          />
+          <TaxonomySelector
+            options={taxonomies}
+            getOptionCodename={(option) => option.codename}
+            getOptionName={(option) => option.name}
+            title="Taxonómie"
+            initialSelectedOptions={productTaxonomies}
+            onChange={setProductTaxonomies}
           />
         </Stack>
       </div>

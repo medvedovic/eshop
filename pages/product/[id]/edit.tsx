@@ -6,14 +6,17 @@ import { Product as ProductModel } from "../../../models/product";
 import { useSession } from "next-auth/client";
 import { useRouter } from "next/router";
 import { ProductEditor } from "../../../components/ProductEditor";
-import type { ProductDetailViewModel } from "../../../viewModels/ProductDetail";
 import { deliveryClient } from "../../../constants/clients";
+import { TaxonomyViewModel } from "../../../viewModels/Taxonomy";
+import { TaxonomyTerms } from "@kentico/kontent-delivery/_commonjs/models/taxonomy/taxonomy-models";
+import type { ProductEditViewModel } from "../../../viewModels/ProductEdit";
 
 type ProductProps = {
-  readonly product: ProductDetailViewModel;
+  readonly product: ProductEditViewModel;
+  readonly taxonomies: readonly TaxonomyViewModel[];
 };
 
-const Edit: NextPage<ProductProps> = ({ product }) => {
+const Edit: NextPage<ProductProps> = ({ product, taxonomies }) => {
   const router = useRouter();
   const [session, loading] = useSession();
 
@@ -35,7 +38,7 @@ const Edit: NextPage<ProductProps> = ({ product }) => {
       <Navigation isAdmin />
       <div className="container">
         <main className="main product">
-          <ProductEditor product={product} />
+          <ProductEditor product={product} taxonomies={taxonomies} />
         </main>
       </div>
     </>
@@ -46,16 +49,29 @@ type ProductParams = {
   readonly id: string;
 };
 
+const toTaxonomyViewModel = ({
+  name,
+  codename,
+}: TaxonomyTerms): TaxonomyViewModel => ({
+  name,
+  codename,
+});
+
 export const getServerSideProps: GetServerSideProps<
   ProductProps,
   ProductParams
 > = async (context) => {
-  const response = await deliveryClient
+  const itemsResponse = await deliveryClient
     .items<ProductModel>()
     .inFilter("system.codename", [context.params.id])
     .toPromise();
 
-  const data = response.getFirstItem();
+  const data = itemsResponse.getFirstItem();
+
+  const taxonomiesResponse = await deliveryClient
+    .taxonomy("product_categories")
+    .toPromise();
+  const taxonomies = taxonomiesResponse.taxonomy.terms.map(toTaxonomyViewModel);
 
   return {
     props: {
@@ -64,7 +80,11 @@ export const getServerSideProps: GetServerSideProps<
         photoUrl: data.photo.value[0].url,
         price: data.price.value,
         description: data.description.value,
+        taxonomies: data.productCategories.value.map(
+          (category) => category.codename
+        ),
       },
+      taxonomies,
     },
   };
 };

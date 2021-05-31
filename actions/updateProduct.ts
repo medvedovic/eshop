@@ -5,7 +5,12 @@ type Params = {
   readonly productName: string;
   readonly productPrice: number;
   readonly productDescription: string;
+  readonly productTaxonomies: readonly string[];
 };
+
+const codenameToReferenceObject = (codename: string) => ({
+  codename,
+});
 
 export const updateProduct = async (
   itemCodename: string,
@@ -34,6 +39,12 @@ export const updateProduct = async (
           codename: "description",
         },
         value: params.productDescription,
+      }),
+      builder.taxonomyElement({
+        element: {
+          codename: "product_categories",
+        },
+        value: params.productTaxonomies.map(codenameToReferenceObject),
       }),
     ])
     .toPromise();
