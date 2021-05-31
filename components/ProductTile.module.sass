@@ -1,13 +1,15 @@
+@use "../styles/variables"
 @use "../styles/fonts"
 
 .tile
+  $box-padding: 20px
   display: flex
   position: relative
   width: 100%
 
   &__title-box
-    padding: 20px
-    height: 80px
+    padding: $box-padding
+    height: 60px
     font-size: 20px
     position: absolute
     top: 2px
@@ -16,20 +18,42 @@
     background-color: white
     display: flex
     justify-content: space-between
+    overflow: hidden
 
-  &__title-left
+  &__title-wrapper
     display: flex
-    flex-direction: column
+    align-items: center
+    transition: 200ms ease-out
+    transform: translateY(0)
+    opacity: 1
+
+    .tile__title-box:hover &
+      transform: translateY(-200%)
+      opacity: 0
 
   &__title
     font-family: fonts.$heading
-    margin-bottom: 10px
+    display: inline-flex
+    font-size: 20px
 
   &__price
-    text-transform: uppercase
+    display: inline-flex
+    font-size: 20px
+    margin-right: 5px
+    color: darken(variables.$adjacent-color, 50)
 
   &__to-cart
+    position: absolute
+    width: calc(100% - (#{$box-padding} * 2))
     display: flex
+    justify-content: center
+    transition: 200ms ease-out
+    transform: translateY(200%)
+    opacity: 0
+
+    .tile__title-box:hover &
+      transform: translateY(0)
+      opacity: 1
 
   &__img
     display: flex

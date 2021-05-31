@@ -1,4 +1,5 @@
 @use "fonts"
+@use "variables"
 @import "styles/reset"
 
 @import "styles/mixins"
@@ -28,28 +29,52 @@ body
     border: 1px solid black
 
 .cart-btn
-  height: 40px
+  $color-light: rgba(variables.$adjacent-color, .1)
+  $color-medium: darken(variables.$adjacent-color, 15)
+  $color-dark: darken(variables.$adjacent-color, 50)
+  height: 50px
   font-size: 20px
   line-height: 1
   padding: 10px 20px
-  background: transparent
-  border: 1px solid black
   cursor: pointer
   display: inline-flex
   align-items: center
+  background-color: $color-light
+  border: 2px solid $color-medium
+  color: $color-medium
+  transition: 300ms ease-out
+  font-family: fonts.$heading
+  letter-spacing: .125ch
+
+  &:hover
+    color: $color-dark
+    border-color: $color-dark
 
   & > svg
     margin-right: 10px
 
 
 .to-cart-btn
-  display: inline-flex
+  $color-light: rgba(variables.$adjacent-color, .1)
+  $color-medium: darken(variables.$adjacent-color, 15)
+  $color-dark: darken(variables.$adjacent-color, 50)
+  display: flex
   height: 20px
   padding: 0 10px
-  background: none
-  border: 1px solid black
   cursor: pointer
   align-items: center
+  color: $color-medium
+  border: none
+  font-family: fonts.$heading
+  letter-spacing: .125ch
+  justify-content: center
+  background-color: transparent
+  border-radius: 2px
+  font-size: 10px
+
+  &:hover
+    background-color: $color-light
+    color: $color-dark
 
   & > svg
     margin-right: 5px
