@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "yarn eslint . --ext .js,.jsx,.ts,.tsx",
-    "prettify": "yarn prettier --check ."
+    "prettify": "yarn prettier --check .",
+    "test": "jest"
   },
   "dependencies": {
     "@kentico/kontent-delivery": "^10.4.1",
@@ -23,13 +24,16 @@
   },
   "devDependencies": {
     "@kentico/kontent-model-generator": "^3.2.0",
+    "@types/jest": "^26.0.23",
     "@types/react": "^17.0.5",
     "@typescript-eslint/eslint-plugin": "^4.23.0",
     "@typescript-eslint/parser": "^4.23.0",
     "cypress": "^7.3.0",
     "eslint": "^7.26.0",
     "eslint-config-prettier": "^8.3.0",
+    "jest": "^27.0.3",
     "prettier": "2.3.0",
+    "ts-jest": "^27.0.2",
     "typescript": "^4.2.4"
   }
 }
