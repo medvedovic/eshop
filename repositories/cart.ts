@@ -1,7 +1,7 @@
 import { assert } from "../utils/assert";
 import {
-  addExistingItemToCart,
-  addNewItemToCart,
+  updateExistingProductInCart,
+  addNewProductToCart,
   removeProductFromCart,
 } from "./utils";
 
@@ -11,19 +11,20 @@ export type ProductCartModel = {
   readonly count: number;
 };
 
-export type Repository = {
-  readonly add: (product: ProductCartModel) => void;
-  readonly remove: (product: ProductCartModel) => void;
-  readonly clear: () => void;
+type CartRepository = {
+  readonly add: (product: ProductCartModel) => Cart;
+  readonly update: (product: ProductCartModel) => Cart;
+  readonly remove: (product: ProductCartModel) => Cart;
+  readonly clear: () => Cart;
 };
 
 export type Cart = {
-  readonly productIdCount: ReadonlyMap<string, number>;
+  readonly productIdCount: readonly ProductCartModel[];
   readonly totalCost: number;
 };
 
 const initialCart: Cart = {
-  productIdCount: new Map(),
+  productIdCount: [],
   totalCost: 0,
 };
 
@@ -35,15 +36,16 @@ const getParsedLocalStorageData = (): Cart => {
   return JSON.parse(data);
 };
 
-const addItemToCart = (cart: Cart, product: ProductCartModel): Cart =>
-  cart.productIdCount.has(product.id)
-    ? addNewItemToCart(cart, product)
-    : addExistingItemToCart(cart, product);
-
-export const cartRepository: Repository = {
+export const cartRepository: CartRepository = {
   add: (product) => {
     const parsedCart = getParsedLocalStorageData();
-    const newCart = addItemToCart(parsedCart, product);
+    const newCart = addNewProductToCart(parsedCart, product);
+    localStorage.setItem(localStorageCartKey, JSON.stringify(newCart));
+    return newCart;
+  },
+  update: (product) => {
+    const parsedCart = getParsedLocalStorageData();
+    const newCart = updateExistingProductInCart(parsedCart, product);
     localStorage.setItem(localStorageCartKey, JSON.stringify(newCart));
     return newCart;
   },

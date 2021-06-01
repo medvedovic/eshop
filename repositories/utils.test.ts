@@ -1,59 +1,63 @@
 import {
-  addExistingItemToCart,
-  addNewItemToCart,
+  updateExistingProductInCart,
+  addNewProductToCart,
   removeProductFromCart,
 } from "./utils";
 
-describe("addNewItemToCart", () => {
+const product1 = {
+  id: "001",
+  count: 2,
+  price: 20,
+};
+
+const product2 = {
+  id: "002",
+  count: 1,
+  price: 30,
+};
+
+describe("addNewProductToCart", () => {
   it("given an empty cart returns a cart with one item", () => {
     const initial = {
-      productIdCount: new Map(),
+      productIdCount: [],
       totalCost: 0,
     };
-    const actual = addNewItemToCart(initial, {
-      id: "001",
-      count: 2,
-      price: 20,
-    });
+    const actual = addNewProductToCart(initial, product1);
     expect(actual).toEqual({
-      productIdCount: new Map([["001", 2]]),
-      totalCost: 40,
+      productIdCount: [{ ...product1 }],
+      totalCost: product1.price * product1.count,
     });
   });
   it("given a non-empty cart, returns a cart with added item", () => {
     const initial = {
-      productIdCount: new Map([["001", 2]]),
-      totalCost: 40,
+      productIdCount: [product1],
+      totalCost: product1.price * product1.count,
     };
-    const actual = addNewItemToCart(initial, {
-      id: "002",
-      count: 1,
-      price: 20,
+    const actual = addNewProductToCart(initial, {
+      ...product2,
     });
     expect(actual).toEqual({
-      productIdCount: new Map([
-        ["001", 2],
-        ["002", 1],
-      ]),
-      totalCost: 60,
+      productIdCount: [{ ...product1 }, { ...product2 }],
+      totalCost:
+        product1.price * product1.count + product2.price * product2.count,
     });
   });
 });
 
-describe("addExistingItemToCart", () => {
+describe("updateExistingProductInCart", () => {
   it("given a non-empty cart, updates item count", () => {
     const initial = {
-      productIdCount: new Map([["001", 2]]),
-      totalCost: 40,
+      productIdCount: [product1],
+      totalCost: product1.price * product1.count,
     };
-    const actual = addExistingItemToCart(initial, {
-      id: "001",
-      count: 3,
-      price: 20,
+    const count = 3;
+    const actual = updateExistingProductInCart(initial, {
+      ...product1,
+      count,
     });
     expect(actual).toEqual({
-      productIdCount: new Map([["001", 3]]),
-      totalCost: 60,
+      productIdCount: [{ ...product1, count }],
+      totalCost: product1.price * count,
     });
   });
 });
@@ -61,37 +65,29 @@ describe("addExistingItemToCart", () => {
 describe("removeProductFromCart", () => {
   it("given a non-empty cart, removes and item", () => {
     const initial = {
-      productIdCount: new Map([
-        ["001", 2],
-        ["002", 1],
-      ]),
-      totalCost: 60,
+      productIdCount: [product1, product2],
+      totalCost:
+        product1.price * product1.count + product2.price * product2.count,
     };
     const actual = removeProductFromCart(initial, {
-      id: "001",
-      count: 2,
-      price: 20,
+      ...product1,
     });
     expect(actual).toEqual({
-      productIdCount: new Map([["002", 1]]),
-      totalCost: 20,
+      productIdCount: [{ ...product2 }],
+      totalCost: product2.price,
     });
   });
   it("given a non-empty cart, returns an empty cart", () => {
     const initial = {
-      productIdCount: new Map([
-        ["001", 2],
-      ]),
-      totalCost: 60,
+      productIdCount: [product1],
+      totalCost: product1.price * product1.count,
     };
     const actual = removeProductFromCart(initial, {
-      id: "001",
-      count: 2,
-      price: 20,
+      ...product1,
     });
     expect(actual).toEqual({
-      productIdCount: new Map([["002", 1]]),
-      totalCost: 20,
+      productIdCount: [],
+      totalCost: 0,
     });
   });
 });
