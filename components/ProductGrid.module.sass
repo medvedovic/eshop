@@ -1,6 +1,16 @@
+@use "../styles/variables"
 @use "../styles/mixins"
 
 .grid
+  --color-01: #{variables.$color-pink}
+  --color-02: #{variables.$color-green}
+  --color-03: #{variables.$color-crimson}
+  --color-04: #{variables.$color-sky-blue}
+  --color-05: #{variables.$color-yellow}
+  --color-06: #{variables.$color-grey}
+  --color-07: #{variables.$color-brown}
+  --color-08: #{variables.$color-orange}
+
   @include mixins.list-reset
   display: grid
   grid-template-columns: repeat(4, 1fr)
@@ -8,6 +18,7 @@
   &__item
     display: flex
     position: relative
+    box-shadow: 4px 6px 6px darkgrey
 
     &:before
       content: ''
@@ -23,6 +34,10 @@
       right: 0
       bottom: 0
       display: flex
+
+    @for $i from 1 through 9
+      &:nth-child(#{$i})
+        --color-tile: var(--color-0#{$i})
 
     .grid:not(.grid--compact) &
       &:first-child

@@ -6,16 +6,27 @@
   display: flex
   position: relative
   width: 100%
+  border: 2px solid rgb(var(--color-tile))
+
+  &:after
+    content: ''
+    position: absolute
+    top: 0
+    right: 0
+    bottom: calc(100% - 60px)
+    left: 0
+    background-color: white
 
   &__title-box
+    z-index: 1
     padding: $box-padding
     height: 60px
     font-size: 20px
     position: absolute
-    top: 2px
-    left: 2px
-    right: 2px
-    background-color: white
+    top: 0
+    left: 0
+    right: 0
+    background-color: rgba(var(--color-tile), .1)
     display: flex
     justify-content: space-between
     overflow: hidden
