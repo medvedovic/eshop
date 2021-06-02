@@ -49,3 +49,20 @@ export const removeProductFromCart = (
     totalCost: totalCost - product.price * product.count,
   };
 };
+
+export const addOneProductToCart = (
+  { productIdCount, totalCost }: Cart,
+  productId: string
+): Cart => {
+  assert(
+    productIdCount.some((p) => p.id === productId),
+    `Product ${productId} not present in cart`
+  );
+
+  return {
+    productIdCount: productIdCount.map((p) =>
+      p.id === productId ? { ...p, count: p.count + 1 } : p
+    ),
+    totalCost: totalCost + productIdCount.find((p) => p.id === productId).price,
+  };
+};

@@ -2,6 +2,7 @@ import {
   updateExistingProductInCart,
   addNewProductToCart,
   removeProductFromCart,
+  addOneProductToCart,
 } from "./utils";
 
 const product1 = {
@@ -88,6 +89,25 @@ describe("removeProductFromCart", () => {
     expect(actual).toEqual({
       productIdCount: [],
       totalCost: 0,
+    });
+  });
+});
+
+describe("addOneProductToCart", () => {
+  it("given a non-empty cart, increments count of product", () => {
+    const initial = {
+      productIdCount: [product1],
+      totalCost: product1.price * product1.count,
+    };
+    const actual = addOneProductToCart(initial, product1.id);
+    expect(actual).toEqual({
+      productIdCount: [
+        {
+          ...product1,
+          count: product1.count + 1,
+        },
+      ],
+      totalCost: product1.price * (product1.count + 1),
     });
   });
 });

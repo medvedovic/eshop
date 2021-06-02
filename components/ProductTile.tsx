@@ -23,13 +23,16 @@ export const ProductTile: React.FC<ProductTileProps> = ({
 }) => {
   const repo = React.useContext(CartContext);
   const ref = React.useRef<HTMLButtonElement>(null);
-  const addProductToRepository = (): void => {
-    repo.add({
-      id: codename,
-      price,
-      count: 1,
-    });
-  };
+  const isInCart = !!repo.get().productIdCount.find((p) => p.id === codename);
+  const addProductToRepository = (): void =>
+    isInCart
+      ? repo.addOne(codename)
+      : repo.add({
+          id: codename,
+          price,
+          count: 1,
+        });
+
   return (
     <Link href={productUrl}>
       <a

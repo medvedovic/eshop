@@ -3,6 +3,7 @@ import {
   updateExistingProductInCart,
   addNewProductToCart,
   removeProductFromCart,
+  addOneProductToCart,
 } from "./utils";
 
 export type ProductCartModel = {
@@ -13,6 +14,7 @@ export type ProductCartModel = {
 
 type CartRepository = {
   readonly add: (product: ProductCartModel) => Cart;
+  readonly addOne: (productId: string) => Cart;
   readonly clear: () => Cart;
   readonly get: () => Cart;
   readonly remove: (product: ProductCartModel) => Cart;
@@ -38,26 +40,24 @@ const getParsedLocalStorageData = (): Cart => {
   return JSON.parse(data);
 };
 
+const performOperationAndPersist =
+  <T>(fn: (cart: Cart, params: T) => Cart) =>
+  (params: T): Cart => {
+    const parsedCart = getParsedLocalStorageData();
+    const newCart = fn(parsedCart, params);
+    localStorage.setItem(localStorageCartKey, JSON.stringify(newCart));
+    return newCart;
+  };
+
 export const cartRepository: CartRepository = {
   get: getParsedLocalStorageData,
-  add: (product) => {
-    const parsedCart = getParsedLocalStorageData();
-    const newCart = addNewProductToCart(parsedCart, product);
-    localStorage.setItem(localStorageCartKey, JSON.stringify(newCart));
-    return newCart;
-  },
-  update: (product) => {
-    const parsedCart = getParsedLocalStorageData();
-    const newCart = updateExistingProductInCart(parsedCart, product);
-    localStorage.setItem(localStorageCartKey, JSON.stringify(newCart));
-    return newCart;
-  },
-  remove: (product) => {
-    const parsedCart = getParsedLocalStorageData();
-    const newCart = removeProductFromCart(parsedCart, product);
-    localStorage.setItem(localStorageCartKey, JSON.stringify(newCart));
-    return newCart;
-  },
+  add: (product) => performOperationAndPersist(addNewProductToCart)(product),
+  addOne: (productId) =>
+    performOperationAndPersist(addOneProductToCart)(productId),
+  update: (product) =>
+    performOperationAndPersist(updateExistingProductInCart)(product),
+  remove: (product) =>
+    performOperationAndPersist(removeProductFromCart)(product),
   clear: () => {
     localStorage.clear();
     return initialCart;
