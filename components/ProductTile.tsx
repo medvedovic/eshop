@@ -24,7 +24,7 @@ export const ProductTile: React.FC<ProductTileProps> = ({
   const repo = React.useContext(CartContext);
   const ref = React.useRef<HTMLButtonElement>(null);
   const isInCart = !!repo.get().productIdCount.find((p) => p.id === codename);
-  const addProductToRepository = (): void =>
+  const addProductToCart = (): void =>
     isInCart
       ? repo.addOne(codename)
       : repo.add({
@@ -54,7 +54,7 @@ export const ProductTile: React.FC<ProductTileProps> = ({
           <div className={styles["tile__to-cart"]}>
             <button
               className="to-cart-btn"
-              onClick={addProductToRepository}
+              onClick={addProductToCart}
               ref={ref}
             >
               <Plus size={20} />
