@@ -22,6 +22,7 @@ export const ProductTile: React.FC<ProductTileProps> = ({
   title,
 }) => {
   const repo = React.useContext(CartContext);
+  const ref = React.useRef<HTMLButtonElement>(null);
   const addProductToRepository = (): void => {
     repo.add({
       id: codename,
@@ -31,7 +32,14 @@ export const ProductTile: React.FC<ProductTileProps> = ({
   };
   return (
     <Link href={productUrl}>
-      <a className={styles.tile}>
+      <a
+        className={styles.tile}
+        onClick={(e) => {
+          if (e.target === ref.current) {
+            e.preventDefault();
+          }
+        }}
+      >
         <div className={styles.tile__img}>
           <Image src={photoUrl} layout="fill" />
         </div>
@@ -41,7 +49,11 @@ export const ProductTile: React.FC<ProductTileProps> = ({
             <h2 className={classNames("h2", styles.tile__title)}>{title}</h2>
           </div>
           <div className={styles["tile__to-cart"]}>
-            <button className="to-cart-btn" onClick={addProductToRepository}>
+            <button
+              className="to-cart-btn"
+              onClick={addProductToRepository}
+              ref={ref}
+            >
               <Plus size={20} />
               Vložiť do košíku
             </button>
