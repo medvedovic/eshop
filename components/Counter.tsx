@@ -6,16 +6,22 @@ const countBottomBoundary = 0;
 
 const isNaN = (num: unknown): num is number => Number.isNaN(num);
 
-export const Counter: React.FC = () => {
-  const [count, setCount] = React.useState(0);
+type CounterProps = {
+  readonly count: number;
+  readonly setCount: (count: number) => void;
+};
+
+export const Counter: React.FC<CounterProps> = (props) => {
+  const [count, setCount] = React.useState(props.count);
   const increment = () =>
     setCount((prev) =>
       prev === countUpperBoundary ? countUpperBoundary : ++prev
     );
-  const decrement = () =>
+  const decrement = () => {
     setCount((prev) =>
       prev === countBottomBoundary ? countBottomBoundary : --prev
     );
+  };
   const onChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
     const { value } = e.target;
     const parsedValue = parseInt(value);
@@ -26,6 +32,10 @@ export const Counter: React.FC = () => {
       setCount(0);
     }
   };
+
+  React.useEffect(() => {
+    props.setCount(count);
+  }, [count]);
 
   return (
     <div className={styles.counter}>
