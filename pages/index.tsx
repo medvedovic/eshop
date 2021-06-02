@@ -47,11 +47,12 @@ const Index: NextPage<IndexProps> = ({ groupedProducts }) => {
               <ProductGrid isCompact={products.length < 5}>
                 {products.map((product, index) => (
                   <ProductTile
-                    photoUrl={product.photoUrl}
+                    codename={product.codename}
                     key={index}
-                    title={product.name}
+                    photoUrl={product.photoUrl}
                     price={product.price}
                     productUrl={`/product/${product.productUrl}`}
+                    title={product.name}
                   />
                 ))}
               </ProductGrid>
@@ -64,6 +65,7 @@ const Index: NextPage<IndexProps> = ({ groupedProducts }) => {
 };
 
 type ProductListingViewModel = {
+  readonly codename: string;
   readonly name: string;
   readonly photoUrl: string;
   readonly price: number;
@@ -74,6 +76,7 @@ const getTaxonomyKeys = (product: Product) =>
   product.productCategories.value.map((taxonomy) => taxonomy.name);
 
 const toProductViewModel = (product: Product): ProductListingViewModel => ({
+  codename: product.system.codename,
   name: product.name.value,
   photoUrl: product.photo.value[0].url,
   price: product.price.value,

@@ -13,9 +13,11 @@ export type ProductCartModel = {
 
 type CartRepository = {
   readonly add: (product: ProductCartModel) => Cart;
-  readonly update: (product: ProductCartModel) => Cart;
-  readonly remove: (product: ProductCartModel) => Cart;
   readonly clear: () => Cart;
+  readonly get: () => Cart;
+  readonly remove: (product: ProductCartModel) => Cart;
+  readonly update: (product: ProductCartModel) => Cart;
+  readonly initialize: () => void;
 };
 
 export type Cart = {
@@ -23,7 +25,7 @@ export type Cart = {
   readonly totalCost: number;
 };
 
-const initialCart: Cart = {
+export const initialCart: Cart = {
   productIdCount: [],
   totalCost: 0,
 };
@@ -37,6 +39,7 @@ const getParsedLocalStorageData = (): Cart => {
 };
 
 export const cartRepository: CartRepository = {
+  get: getParsedLocalStorageData,
   add: (product) => {
     const parsedCart = getParsedLocalStorageData();
     const newCart = addNewProductToCart(parsedCart, product);
@@ -58,5 +61,10 @@ export const cartRepository: CartRepository = {
   clear: () => {
     localStorage.clear();
     return initialCart;
+  },
+  initialize: () => {
+    if (!localStorage.getItem(localStorageCartKey)) {
+      localStorage.setItem(localStorageCartKey, JSON.stringify(initialCart));
+    }
   },
 };
