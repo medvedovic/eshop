@@ -66,3 +66,7 @@ export const addOneProductToCart = (
     totalCost: totalCost + productIdCount.find((p) => p.id === productId).price,
   };
 };
+
+
+export const findByProductId = (cart: Cart, productId: string) =>
+  cart.productIdCount.find((p) => p.id === productId);

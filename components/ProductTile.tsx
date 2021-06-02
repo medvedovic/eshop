@@ -5,6 +5,7 @@ import styles from "./ProductTile.module.sass";
 import classNames from "classnames";
 import { Plus } from "iconoir-react";
 import { CartContext } from "../contexts/Cart";
+import { findByProductId } from "../repositories/utils";
 
 type ProductTileProps = {
   readonly codename: string;
@@ -23,7 +24,7 @@ export const ProductTile: React.FC<ProductTileProps> = ({
 }) => {
   const repo = React.useContext(CartContext);
   const ref = React.useRef<HTMLButtonElement>(null);
-  const isInCart = !!repo.get().productIdCount.find((p) => p.id === codename);
+  const isInCart = !!findByProductId(repo.get(), codename);
   const addProductToCart = (): void =>
     isInCart
       ? repo.addOne(codename)

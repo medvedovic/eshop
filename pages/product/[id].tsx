@@ -13,6 +13,8 @@ import { Stack } from "../../components/Stack";
 import { useRouter } from "next/router";
 import { useSession } from "next-auth/client";
 import type { ProductDetailViewModel } from "../../viewModels/ProductDetail";
+import { CartContext } from "../../contexts/Cart";
+import { findByProductId } from "../../repositories/utils";
 
 type ProductProps = {
   readonly product: ProductDetailViewModel;
@@ -21,6 +23,16 @@ type ProductProps = {
 const Product: React.FC<ProductProps> = ({ product }) => {
   const [session, loading] = useSession();
   const router = useRouter();
+  const repo = React.useContext(CartContext);
+  const isInCart = !!findByProductId(repo.get(), product.codename);
+  const addProductToCart = () =>
+    isInCart
+      ? repo.addOne(product.codename)
+      : repo.add({
+          id: product.codename,
+          price: product.price,
+          count: 1,
+        });
   return (
     <>
       <Head>
@@ -55,7 +67,9 @@ const Product: React.FC<ProductProps> = ({ product }) => {
                     <Counter />
                   </div>
                 </div>
-                <button className="details__btn">Vložiť do košíku</button>
+                <button onClick={addProductToCart} className="details__btn">
+                  Vložiť do košíku
+                </button>
               </Stack>
               <div className="details__text">{product.description}</div>
             </Stack>
@@ -103,6 +117,7 @@ export const getStaticProps: GetStaticProps<ProductProps, ProductParams> =
           photoUrl: data.photo.value[0].url,
           price: data.price.value,
           description: data.description.value,
+          codename: data.system.codename,
         },
       },
     };
