@@ -12,13 +12,7 @@ import { Spacing } from "../../constants/ui";
 import { Stack } from "../../components/Stack";
 import { useRouter } from "next/router";
 import { useSession } from "next-auth/client";
-
-type ProductDetailViewModel = {
-  readonly name: string;
-  readonly photoUrl: string;
-  readonly price: number;
-  readonly description: string;
-};
+import type { ProductDetailViewModel } from "../../viewModels/ProductDetail";
 
 type ProductProps = {
   readonly product: ProductDetailViewModel;
