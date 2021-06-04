@@ -1,15 +1,16 @@
-import React from "react";
-import Head from "next/head";
-import { Navigation } from "../../../components/Navigation";
+import { TaxonomyTerms } from "@kentico/kontent-delivery/_commonjs/models/taxonomy/taxonomy-models";
 import { GetServerSideProps, NextPage } from "next";
-import { Product as ProductModel } from "../../../models/product";
-import { useSession } from "next-auth/client";
+import Head from "next/head";
 import { useRouter } from "next/router";
+import { useSession } from "next-auth/client";
+import React from "react";
+
+import { Navigation } from "../../../components/Navigation";
 import { ProductEditor } from "../../../components/ProductEditor";
 import { deliveryClient } from "../../../constants/clients";
-import { TaxonomyViewModel } from "../../../viewModels/Taxonomy";
-import { TaxonomyTerms } from "@kentico/kontent-delivery/_commonjs/models/taxonomy/taxonomy-models";
+import { Product as ProductModel } from "../../../models/product";
 import type { ProductEditViewModel } from "../../../viewModels/ProductEdit";
+import { TaxonomyViewModel } from "../../../viewModels/Taxonomy";
 
 type ProductProps = {
   readonly product: ProductEditViewModel;

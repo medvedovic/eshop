@@ -1,20 +1,21 @@
-import React from "react";
-import Image from "next/image";
-import Head from "next/head";
-import Link from "next/link";
-import {Navigation} from "../../components/Navigation";
-import {Counter} from "../../components/Counter";
 import {GetStaticPaths, GetStaticProps} from "next";
-import {deliveryClient} from "../../constants/clients";
-import {Product as ProductModel} from "../../models/product";
-import {Inline} from "../../components/Inline";
-import {Spacing} from "../../constants/ui";
-import {Stack} from "../../components/Stack";
+import Head from "next/head";
+import Image from "next/image";
+import Link from "next/link";
 import {useRouter} from "next/router";
 import {useSession} from "next-auth/client";
-import type {ProductDetailViewModel} from "../../viewModels/ProductDetail";
+import React from "react";
+
+import {Counter} from "../../components/Counter";
+import {Inline} from "../../components/Inline";
+import {Navigation} from "../../components/Navigation";
+import {Stack} from "../../components/Stack";
+import {deliveryClient} from "../../constants/clients";
+import {Spacing} from "../../constants/ui";
 import {CartContext} from "../../contexts/Cart";
+import {Product as ProductModel} from "../../models/product";
 import {findByProductId} from "../../repositories/utils";
+import type {ProductDetailViewModel} from "../../viewModels/ProductDetail";
 
 type ProductProps = {
   readonly product: ProductDetailViewModel;

@@ -1,5 +1,6 @@
-import { managementClient } from "../constants/clients";
 import { LanguageVariantResponses } from "@kentico/kontent-management";
+
+import { managementClient } from "../constants/clients";
 
 type Params = {
   readonly productName: string;

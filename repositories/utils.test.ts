@@ -1,8 +1,8 @@
 import {
-  updateExistingProductInCart,
   addNewProductToCart,
-  removeProductFromCart,
   addOneProductToCart,
+  removeProductFromCart,
+  updateExistingProductInCart,
 } from "./utils";
 
 const product1 = {

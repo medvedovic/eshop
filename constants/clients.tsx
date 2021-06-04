@@ -1,5 +1,6 @@
 import { DeliveryClient, TypeResolver } from "@kentico/kontent-delivery";
 import { ManagementClient } from "@kentico/kontent-management";
+
 import { Product } from "../models/product";
 
 // script to generate models from Kontent

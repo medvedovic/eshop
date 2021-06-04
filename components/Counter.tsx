@@ -1,4 +1,5 @@
 import React from "react";
+
 import styles from "./Counter.module.sass";
 
 const countUpperBoundary = 99;

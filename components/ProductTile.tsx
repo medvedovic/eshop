@@ -1,11 +1,12 @@
-import React from "react";
-import Image from "next/image";
-import Link from "next/link";
-import styles from "./ProductTile.module.sass";
 import classNames from "classnames";
 import { Plus } from "iconoir-react";
+import Image from "next/image";
+import Link from "next/link";
+import React from "react";
+
 import { CartContext } from "../contexts/Cart";
 import { findByProductId } from "../repositories/utils";
+import styles from "./ProductTile.module.sass";
 
 type ProductTileProps = {
   readonly codename: string;

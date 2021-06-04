@@ -1,7 +1,8 @@
-import React from "react";
-import styles from "./Inline.module.sass";
 import classNames from "classnames";
+import React from "react";
+
 import { Spacing } from "../constants/ui";
+import styles from "./Inline.module.sass";
 
 type InlineProps = {
   readonly spacing: Spacing;

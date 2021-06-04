@@ -1,18 +1,19 @@
+import { NavArrowLeft, NavArrowRight } from "iconoir-react";
 import { NextPage } from "next";
-import Image from "next/image";
 import Head from "next/head";
+import Image from "next/image";
 import Link from "next/link";
-import { Navigation } from "../../components/Navigation";
-import React from "react";
 import { getSession } from "next-auth/client";
+import React from "react";
+
+import { Inline } from "../../components/Inline";
+import { Navigation } from "../../components/Navigation";
+import { Stack } from "../../components/Stack";
+import { Spacing } from "../../constants/ui";
 import { CartContext } from "../../contexts/Cart";
 import { Cart } from "../../repositories/cart";
-import { ProductServerModel } from "../../serverModels/Product";
-import { Inline } from "../../components/Inline";
-import { Spacing } from "../../constants/ui";
-import { NavArrowLeft, NavArrowRight } from "iconoir-react";
 import { findByProductId } from "../../repositories/utils";
-import { Stack } from "../../components/Stack";
+import { ProductServerModel } from "../../serverModels/Product";
 
 const getCodeNames = (cart: Cart) => cart.productIdCount.map((p) => p.id);
 

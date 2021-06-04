@@ -1,8 +1,9 @@
-import React from "react";
-import { Stack } from "./Stack";
-import { Spacing } from "../constants/ui";
-import styles from "./TaxonomySelector.module.sass";
 import classNames from "classnames";
+import React from "react";
+
+import { Spacing } from "../constants/ui";
+import { Stack } from "./Stack";
+import styles from "./TaxonomySelector.module.sass";
 
 type TaxonomySelectorProps<T extends Readonly<Record<string, any>>> = {
   readonly options: readonly T[];

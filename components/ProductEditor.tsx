@@ -1,16 +1,17 @@
-import React from "react";
-import { Inline } from "./Inline";
-import { Spacing } from "../constants/ui";
-import Link from "next/link";
 import Image from "next/image";
-import { Stack } from "./Stack";
+import Link from "next/link";
 import { useRouter } from "next/router";
+import React from "react";
+
 import { createNewVersion } from "../actions/createNewVersion";
-import { updateProduct } from "../actions/updateProduct";
 import { publishProduct } from "../actions/publishProduct";
-import type { TaxonomyViewModel } from "../viewModels/Taxonomy";
-import { getTaxonomySelector } from "./TaxonomySelector";
+import { updateProduct } from "../actions/updateProduct";
+import { Spacing } from "../constants/ui";
 import type { ProductEditViewModel } from "../viewModels/ProductEdit";
+import type { TaxonomyViewModel } from "../viewModels/Taxonomy";
+import { Inline } from "./Inline";
+import { Stack } from "./Stack";
+import { getTaxonomySelector } from "./TaxonomySelector";
 
 type ProductEditorProps = {
   readonly product: ProductEditViewModel;

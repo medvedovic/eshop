@@ -1,9 +1,9 @@
 import { assert } from "../utils/assert";
 import {
-  updateExistingProductInCart,
   addNewProductToCart,
-  removeProductFromCart,
   addOneProductToCart,
+  removeProductFromCart,
+  updateExistingProductInCart,
 } from "./utils";
 
 export type ProductCartModel = {

@@ -1,6 +1,7 @@
 import React from "react";
-import styles from "./Stact.module.sass";
+
 import { Spacing } from "../constants/ui";
+import styles from "./Stact.module.sass";
 
 type StackProps = {
   readonly spacing: Spacing;

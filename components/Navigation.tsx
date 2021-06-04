@@ -1,11 +1,12 @@
-import React from "react";
-import Link from 'next/link';
-import styles from "./Navigation.module.sass";
-import { Inline } from "./Inline";
-import { Spacing } from "../constants/ui";
-import { signout } from "next-auth/client";
 import { Cart } from "iconoir-react";
+import Link from 'next/link';
+import { signout } from "next-auth/client";
+import React from "react";
+
+import { Spacing } from "../constants/ui";
 import { CartContext } from "../contexts/Cart";
+import { Inline } from "./Inline";
+import styles from "./Navigation.module.sass";
 
 type NavigationProps = {
   readonly isAdmin: boolean;

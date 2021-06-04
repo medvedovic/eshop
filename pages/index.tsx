@@ -1,12 +1,13 @@
-import { Navigation } from "../components/Navigation";
-import Head from "next/head";
-import React from "react";
-import { ProductTile } from "../components/ProductTile";
-import { ProductGrid } from "../components/ProductGrid";
 import { GetStaticProps, NextPage } from "next";
+import Head from "next/head";
+import { useSession } from "next-auth/client";
+import React from "react";
+
+import { Navigation } from "../components/Navigation";
+import { ProductGrid } from "../components/ProductGrid";
+import { ProductTile } from "../components/ProductTile";
 import { deliveryClient } from "../constants/clients";
 import { Product } from "../models/product";
-import { useSession } from "next-auth/client";
 import { groupByMultiple } from "../utils/groupBy";
 
 type MainSectionProps = {
