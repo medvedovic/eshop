@@ -1,4 +1,5 @@
 import React from "react";
+import Link from 'next/link';
 import styles from "./Navigation.module.sass";
 import { Inline } from "./Inline";
 import { Spacing } from "../constants/ui";
@@ -49,10 +50,12 @@ export const Navigation: React.FC<NavigationProps> = ({ isAdmin }) => {
           )}
         </Inline>
         <div className={styles["navigation__cart-btn"]}>
-          <button className="button cart-btn">
-            <Cart size={30} />
-            Košík: {repo.get().totalCost} Kč
-          </button>
+          <Link href="cart/01">
+            <button className="button cart-btn">
+              <Cart size={30} />
+              Košík: {repo.get().totalCost} Kč
+            </button>
+          </Link>
         </div>
       </nav>
     </div>
