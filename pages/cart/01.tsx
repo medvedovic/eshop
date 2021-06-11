@@ -11,11 +11,8 @@ import { Navigation } from "../../components/Navigation";
 import { Stack } from "../../components/Stack";
 import { Spacing } from "../../constants/ui";
 import { CartContext } from "../../contexts/Cart";
-import { Cart } from "../../repositories/cart";
-import { findByProductId } from "../../repositories/utils";
+import { findByProductId, getCodeNames } from "../../repositories/utils";
 import { ProductServerModel } from "../../serverModels/Product";
-
-const getCodeNames = (cart: Cart) => cart.productIdCount.map((p) => p.id);
 
 const fetchCart = async (codenames: readonly string[]) => {
   const response = await fetch("/api/cart", {

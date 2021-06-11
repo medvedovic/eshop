@@ -25,7 +25,10 @@ export const updateExistingProductInCart = (
     `Product ${product.id} not present in cart`
   );
 
-  const thereCount = productIdCount.find((p) => p.id === product.id).count;
+  const thereCount = findByProductId(
+    { productIdCount, totalCost },
+    product.id
+  ).count;
 
   return {
     productIdCount: productIdCount.map((p) =>
@@ -63,10 +66,16 @@ export const addOneProductToCart = (
     productIdCount: productIdCount.map((p) =>
       p.id === productId ? { ...p, count: p.count + 1 } : p
     ),
-    totalCost: totalCost + productIdCount.find((p) => p.id === productId).price,
+    totalCost:
+      totalCost +
+      findByProductId({ productIdCount, totalCost }, productId).price,
   };
 };
 
+export const findByProductId = (
+  cart: Cart,
+  productId: string
+): ProductCartModel => cart.productIdCount.find((p) => p.id === productId);
 
-export const findByProductId = (cart: Cart, productId: string) =>
-  cart.productIdCount.find((p) => p.id === productId);
+export const getCodeNames = (cart: Cart): readonly string[] =>
+  cart.productIdCount.map((p) => p.id);
