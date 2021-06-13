@@ -1,3 +1,5 @@
+@use "../variables"
+@use "sass:list"
 .tabs
   display: flex
   height: 80px
@@ -60,8 +62,8 @@
     border: 1px solid black
     display: inline-flex
 
-    & > *:first-child
-      border-right: 1px solid black
+    & > * + *
+      border-left: 1px solid black
 
   &__back,
   &__next
@@ -70,3 +72,31 @@
     align-items: center
     padding: 0 20px
     font-size: 16px
+
+
+  &__submit
+    $r: list.nth(variables.$color-green, 1)
+    $g: list.nth(variables.$color-green, 2)
+    $b: list.nth(variables.$color-green, 3)
+    $color-light: rgba($r, $g, $b, .1)
+    $color-medium: darken(rgb($r $g $b), 15)
+    $color-dark: darken(rgb($r $g $b), 50)
+    background-color: $color-light
+    border: 2px solid $color-medium
+    height: 40px
+    display: inline-flex
+    align-self: flex-start
+    padding: 0 20px
+    color: $color-medium
+    font-family: "Montserrat", sans-serif
+    letter-spacing: 0.125ch
+    transition: 300ms ease-out
+    align-items: center
+    font-size: 15px
+
+    & > svg
+      margin-right: 10px
+
+    &:hover
+      color: $color-dark
+      border-color: $color-dark

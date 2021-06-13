@@ -91,10 +91,12 @@ const Cart01: NextPage = () => {
                   Späť do obchodu
                 </a>
               </Link>
-              <div className="cart__next">
-                Pokračovať
-                <NavArrowRight size={20} />
-              </div>
+              <Link href="/cart/02">
+                <a className="cart__next">
+                  Pokračovať
+                  <NavArrowRight size={20} />
+                </a>
+              </Link>
             </div>
           </div>
         </main>

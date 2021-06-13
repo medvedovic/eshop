@@ -1,3 +1,5 @@
+@use "../fonts"
+
 .form
   display: flex
   flex-direction: column
@@ -30,6 +32,13 @@
     padding: 10px 20px
     font-size: 20px
     border: 1px solid black
+
+    &:is(select)
+      padding: 0 20px
+
+    &:is(select),
+    &::placeholder
+      font-family: fonts.$body
 
     &--compact
       flex: 0 1 200px
