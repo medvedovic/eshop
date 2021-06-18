@@ -1,0 +1,48 @@
+@use "../styles/variables"
+@use "../styles/fonts"
+@use "sass:list"
+
+.h2
+  font-family: fonts.$heading
+  font-size: 18px
+
+.invoices
+  &__list-item
+    display: flex
+
+    & > *
+      flex: 1 1 0
+
+      &:last-child
+        flex: 0 1 auto
+
+  &__details
+    display: flex
+    padding: 20px
+
+  &__details-col
+    flex: 1 0 0
+
+  &__product
+    display: flex
+    justify-content: space-between
+
+  &__toggle
+    $r: list.nth(variables.$color-grey, 1)
+    $g: list.nth(variables.$color-grey, 2)
+    $b: list.nth(variables.$color-grey, 3)
+    $color-light: rgba($r, $g, $b, .1)
+    $color-medium: darken(rgb($r $g $b), 15)
+    $color-dark: darken(rgb($r $g $b), 50)
+
+    background-color: transparent
+    border: none
+    padding: 0
+    display: inline-flex
+    transition: 200ms ease-out
+    border-radius: 2px
+    color: $color-medium
+
+    &:hover
+      color: $color-dark
+      background-color: $color-light

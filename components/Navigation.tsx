@@ -1,5 +1,5 @@
 import { Cart } from "iconoir-react";
-import Link from 'next/link';
+import Link from "next/link";
 import { signout } from "next-auth/client";
 import React from "react";
 
@@ -35,9 +35,11 @@ export const Navigation: React.FC<NavigationProps> = ({ isAdmin }) => {
             </div>
           </div>
           {isAdmin && (
-            <a href="#" className={styles.navigation__link}>
-              Objednávky
-            </a>
+            <Link href="/invoices">
+              <a href="#" className={styles.navigation__link}>
+                Objednávky
+              </a>
+            </Link>
           )}
           {isAdmin && (
             <a

@@ -1,13 +1,9 @@
-import mongoose from "mongoose";
+import mongoose, { Document } from "mongoose";
 
-export enum OrderStatus {
-  New = "new",
-  InProgress = "in-progress",
-  Archived = "archived",
-}
+import { InvoiceStatus } from "../constants/InvoiceStatus";
 
-export type Order = {
-  readonly status: OrderStatus;
+export type Order = Document & {
+  readonly status: InvoiceStatus;
   readonly assigneeId: string;
   readonly customer: {
     readonly name: string;
