@@ -52,14 +52,16 @@ export const Navigation: React.FC<NavigationProps> = ({ isAdmin }) => {
             </a>
           )}
         </Inline>
-        <div className={styles["navigation__cart-btn"]}>
-          <Link href="cart/01">
-            <button className="button cart-btn">
-              <Cart size={30} />
-              Košík: {repo.get().totalCost} Kč
-            </button>
-          </Link>
-        </div>
+        {!isAdmin && (
+          <div className={styles["navigation__cart-btn"]}>
+            <Link href="cart/01">
+              <button className="button cart-btn">
+                <Cart size={30} />
+                Košík: {repo.get().totalCost} Kč
+              </button>
+            </Link>
+          </div>
+        )}
       </nav>
     </div>
   );
