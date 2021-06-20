@@ -6,9 +6,33 @@
   font-family: fonts.$heading
   font-size: 18px
 
+.icon-button
+  $r: list.nth(variables.$color-grey, 1)
+  $g: list.nth(variables.$color-grey, 2)
+  $b: list.nth(variables.$color-grey, 3)
+  $color-light: rgba($r, $g, $b, .1)
+  $color-medium: darken(rgb($r $g $b), 15)
+  $color-dark: darken(rgb($r $g $b), 50)
+
+  background-color: transparent
+  border: none
+  padding: 0
+  display: inline-flex
+  transition: 200ms ease-out
+  border-radius: 2px
+  color: $color-medium
+  width: 20px
+  height: 20px
+  justify-content: center
+
+  &:hover
+    color: $color-dark
+    background-color: $color-light
+
 .invoices
   &__list-item
     display: flex
+    align-items: center
 
     & > *
       flex: 1 1 0
@@ -19,30 +43,62 @@
   &__details
     display: flex
     padding: 20px
+    flex-wrap: wrap
 
   &__details-col
     flex: 1 0 0
 
-  &__product
+  &__details-row
+    flex: 1 0 100%
+    padding-top: 10px
     display: flex
-    justify-content: space-between
+    justify-content: flex-end
 
-  &__toggle
+  &__cancel,
+  &__submit
+    height: 40px
+    padding: 0 20px
+    border: 1px solid
+
+  &__cancel
     $r: list.nth(variables.$color-grey, 1)
     $g: list.nth(variables.$color-grey, 2)
     $b: list.nth(variables.$color-grey, 3)
     $color-light: rgba($r, $g, $b, .1)
     $color-medium: darken(rgb($r $g $b), 15)
     $color-dark: darken(rgb($r $g $b), 50)
-
-    background-color: transparent
-    border: none
-    padding: 0
-    display: inline-flex
-    transition: 200ms ease-out
-    border-radius: 2px
+    background-color: $color-light
+    border-color: $color-medium
     color: $color-medium
-
     &:hover
       color: $color-dark
-      background-color: $color-light
+      border-color: $color-dark
+
+  &__submit
+    $r: list.nth(variables.$color-green, 1)
+    $g: list.nth(variables.$color-green, 2)
+    $b: list.nth(variables.$color-green, 3)
+    $color-light: rgba($r, $g, $b, .1)
+    $color-medium: darken(rgb($r $g $b), 15)
+    $color-dark: darken(rgb($r $g $b), 50)
+    background-color: $color-light
+    border-color: $color-medium
+    color: $color-medium
+    &:hover
+      color: $color-dark
+      border-color: $color-dark
+
+  &__product
+    display: flex
+    justify-content: space-between
+
+.selectable
+  display: flex
+  height: 20px
+
+  &__toggle
+    margin-left: 5px
+    display: none
+
+  &:not(.selectable--readonly):hover &__toggle
+    display: inline-flex

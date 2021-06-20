@@ -23,6 +23,13 @@ export default async (
   request: NextApiRequest,
   response: NextApiResponse<ResponseData>
 ): Promise<void> => {
+  if(request.method === 'PUT') {
+    // authorize
+    const {id, ...rest} = JSON.parse(request.body);
+    await OrdersRepository.update(id, rest)
+    response.status(StatusCodes.Ok).end();
+    return;
+  }
   if (request.method === "POST") {
     const { body } = request;
 

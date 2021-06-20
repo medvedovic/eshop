@@ -22,9 +22,19 @@ type OrderCreateModel = {
   }[];
 };
 
-type Invoice = Omit<InvoiceViewModel, 'assignee'> & {
+type OrderUpdateModel = {
+  readonly status?: InvoiceStatus;
+  readonly assigneeId?: string;
+};
+
+// https://stackoverflow.com/a/48244432
+type AtLeastOne<T, U = {[K in keyof T]: Pick<T, K> }> = Partial<T> & U[keyof U]
+
+type NonEmptyOrderUpdateModel = AtLeastOne<OrderUpdateModel>
+
+type Invoice = Omit<InvoiceViewModel, "assignee"> & {
   readonly assigneeId: string;
-}
+};
 
 const toViewModel = (obj: OrderDbModel): Invoice => ({
   status: obj.status,
@@ -51,6 +61,7 @@ type OrdersRepository = {
   readonly add: (createModel: OrderCreateModel) => Promise<string>;
   readonly initialize: () => void;
   readonly getAll: () => Promise<readonly Invoice[]>;
+  readonly update: (id: string, update: NonEmptyOrderUpdateModel) => Promise<void>;
 };
 
 const connectionString = process.env.MONGODB_CONNECTION_STRING;
@@ -70,6 +81,9 @@ export const OrdersRepository: OrdersRepository = {
     });
     const response = await a.save();
     return response.id;
+  },
+  update: async (id, update) => {
+    await OrderDbModel.findByIdAndUpdate(id, update);
   },
   initialize: async () => {
     await mongoose.connect(connectionString, {

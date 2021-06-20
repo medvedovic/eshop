@@ -1,8 +1,9 @@
 import { InvoiceStatus } from "../constants/InvoiceStatus";
+import type { AdminViewModel } from "./AdminViewModel";
 
 export type InvoiceViewModel = {
   readonly id: string;
-  readonly assignee: string;
+  readonly assignee: AdminViewModel | null;
   readonly status: InvoiceStatus;
   readonly customer: {
     readonly name: string;

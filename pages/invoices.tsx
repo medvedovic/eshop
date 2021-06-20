@@ -1,14 +1,13 @@
+import { GetServerSideProps, NextPage } from "next";
 import Head from "next/head";
 import { getSession, useSession } from "next-auth/client";
 import React from "react";
 
-import { Navigation } from "../components/Navigation";
-import { GetServerSideProps, NextPage } from "next";
-import type { InvoiceViewModel } from "../viewModels/InvoiceViewModel";
 import { InvoicesListing } from "../components/InvoicesListing";
-
-const cachedInvoices =
-  '[{"status":"new","id":"60c3ad4188dfed25d5c28ae1","assigneeId":null,"address":{"shipping":"Asdf","city":"Brno","postalCode":"12345"},"customer":{"name":"Patrik Em","phone":"12345678","email":"12345678"},"products":[{"name":"Bryndza 100g","price":49.9,"count":5},{"name":"Morca della","price":25,"count":2}]},{"status":"new","id":"60c3b70b65e5a9284195224a","assigneeId":null,"address":{"shipping":"Asdf","city":"Brno","postalCode":"12345"},"customer":{"name":"Patrik Em","phone":"12345678","email":"12345678"},"products":[{"name":"Bryndza 100g","price":49.9,"count":5},{"name":"Morca della","price":25,"count":2}]},{"status":"new","id":"60c5af8c23dc6b526842dab0","assigneeId":null,"address":{"shipping":"Asdf","city":"Brno","postalCode":"12345"},"customer":{"name":"Patrik Em","phone":"12345678","email":"12345678"},"products":[{"name":"Bryndza 100g","price":49.9,"count":5},{"name":"Morca della","price":25,"count":2}]},{"status":"new","id":"60c5b063b3191352d122495f","assigneeId":null,"address":{"shipping":"Asdf","city":"Brno","postalCode":"12345"},"customer":{"name":"Patrik Em","phone":"12345678","email":"12345678"},"products":[{"name":"Bryndza 100g","price":49.9,"count":5},{"name":"Morca della","price":25,"count":2}]},{"status":"new","id":"60c5b21329a83a53c1fcf96f","assigneeId":null,"address":{"shipping":"Asdf","city":"Brno","postalCode":"12345"},"customer":{"name":"Patrik Em","phone":"12345678","email":"12345678"},"products":[{"name":"Bryndza 100g","price":49.9,"count":5},{"name":"Morca della","price":25,"count":2}]},{"status":"new","id":"60c5b21b29a83a53c1fcf972","assigneeId":null,"address":{"shipping":"Asdf","city":"Brno","postalCode":"12345"},"customer":{"name":"Patrik Em","phone":"12345678","email":"12345678"},"products":[{"name":"Bryndza 100g","price":49.9,"count":5},{"name":"Morca della","price":25,"count":2}]},{"status":"new","id":"60c5b22829a83a53c1fcf975","assigneeId":null,"address":{"shipping":"Asdf","city":"Brno","postalCode":"12345"},"customer":{"name":"Patrik Em","phone":"12345678","email":"12345678"},"products":[{"name":"Bryndza 100g","price":49.9,"count":5},{"name":"Morca della","price":25,"count":2}]},{"status":"new","id":"60c5b28c29a83a53c1fcf978","assigneeId":null,"address":{"shipping":"Asdf","city":"Brno","postalCode":"12345"},"customer":{"name":"Patrik Em","phone":"12345678","email":"12345678"},"products":[{"name":"Bryndza 100g","price":49.9,"count":5},{"name":"Morca della","price":25,"count":2}]},{"status":"new","id":"60c5b34629a83a53c1fcf97b","assigneeId":null,"address":{"shipping":"Asdf","city":"Brno","postalCode":"12345"},"customer":{"name":"Patrik Em","phone":"12345678","email":"12345678"},"products":[{"name":"Bryndza 100g","price":49.9,"count":5},{"name":"Morca della","price":25,"count":2}]},{"status":"new","id":"60c5b35829a83a53c1fcf97e","assigneeId":null,"address":{"shipping":"Asdf","city":"Brno","postalCode":"12345"},"customer":{"name":"Patrik Em","phone":"12345678","email":"12345678"},"products":[{"name":"Bryndza 100g","price":49.9,"count":5},{"name":"Morca della","price":25,"count":2}]},{"status":"new","id":"60c5b37b29a83a53c1fcf981","assigneeId":null,"address":{"shipping":"Asdf","city":"Brno","postalCode":"12345"},"customer":{"name":"Patrik Em","phone":"12345678","email":"12345678"},"products":[{"name":"Bryndza 100g","price":49.9,"count":5},{"name":"Morca della","price":25,"count":2}]},{"status":"new","id":"60c5b39e29a83a53c1fcf984","assigneeId":null,"address":{"shipping":"Asdf","city":"Brno","postalCode":"12345"},"customer":{"name":"Patrik Em","phone":"12345678","email":"12345678"},"products":[{"name":"Bryndza 100g","price":49.9,"count":5},{"name":"Morca della","price":25,"count":2}]},{"status":"new","id":"60c5b3b829a83a53c1fcf987","assigneeId":null,"address":{"shipping":"Asdf","city":"Brno","postalCode":"12345"},"customer":{"name":"Patrik Em","phone":"12345678","email":"12345678"},"products":[{"name":"Bryndza 100g","price":49.9,"count":5},{"name":"Morca della","price":25,"count":2}]},{"status":"new","id":"60c5b40329a83a53c1fcf98a","assigneeId":null,"address":{"shipping":"Asdf","city":"Brno","postalCode":"12345"},"customer":{"name":"Patrik Em","phone":"12345678","email":"12345678"},"products":[{"name":"Bryndza 100g","price":49.9,"count":5},{"name":"Morca della","price":25,"count":2}]},{"status":"new","id":"60c8de92d91da006605f65f1","assigneeId":null,"address":{"shipping":"Asdf","city":"Brno","postalCode":"12345"},"customer":{"name":"Patrik Em","phone":"12345678","email":"12345678"},"products":[{"name":"Bryndza 100g","price":49.9,"count":5},{"name":"Morca della","price":25,"count":2}]},{"status":"new","id":"60c8deba3377db06f7e73684","assigneeId":null,"address":{"shipping":"Asdf","city":"Brno","postalCode":"12345"},"customer":{"name":"Asdf","phone":"12345678","email":"12345678"},"products":[{"name":"Bryndza 100g","price":49.9,"count":5},{"name":"Morca della","price":25,"count":2}]}]';
+import { Navigation } from "../components/Navigation";
+import { OrdersRepository } from "../repositories/order";
+import type { AdminViewModel } from "../viewModels/AdminViewModel";
+import type { InvoiceViewModel } from "../viewModels/InvoiceViewModel";
 
 // todo: clear cart after submission
 
@@ -37,8 +36,7 @@ const Invoices: NextPage<InvoicesProps> = ({
       <div className="container">
         <main className="main">
           <h1 className="h1">Objednávky</h1>
-          {availableAssignees.map((a) => a.name).join(", ")}
-          <InvoicesListing invoices={invoices} />
+          <InvoicesListing invoices={invoices} assignees={availableAssignees} />
         </main>
       </div>
     </>
@@ -96,11 +94,6 @@ export type Auth0UserProfile = {
   readonly app_metadata?: any;
 };
 
-type AdminViewModel = {
-  readonly name: string;
-  readonly userId: string;
-};
-
 const toAdminViewModel = ({
   name,
   user_id,
@@ -129,13 +122,14 @@ export const getServerSideProps: GetServerSideProps<InvoicesProps> = async (
   context
 ) => {
   const session = await getSession(context);
-  // const invoicesDb = await OrdersRepository.getAll();
-  const invoicesDb = JSON.parse(cachedInvoices);
+  const invoicesDb = await OrdersRepository.getAll();
   const admins = await getAdmins();
   const assignees = admins.map(toAdminViewModel);
   const invoices = invoicesDb.map(({ assigneeId, ...rest }) => ({
     ...rest,
-    assignee: assignees.find((a) => a.userId === assigneeId)?.name ?? "",
+    assignee: assigneeId
+      ? assignees.find((a) => a.userId === assigneeId)
+      : null,
   }));
 
   if (!session) {
