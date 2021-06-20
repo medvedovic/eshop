@@ -43,6 +43,7 @@ const Cart02: NextPage = () => {
       products,
     });
     if (response.redirected) {
+      repo.clear();
       await router.push(response.url);
     }
   };

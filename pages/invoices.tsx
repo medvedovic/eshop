@@ -9,7 +9,6 @@ import { OrdersRepository } from "../repositories/order";
 import type { AdminViewModel } from "../viewModels/AdminViewModel";
 import type { InvoiceViewModel } from "../viewModels/InvoiceViewModel";
 
-// todo: clear cart after submission
 type InvoicesProps = {
   readonly availableAssignees: readonly AdminViewModel[];
   readonly invoices: readonly InvoiceViewModel[];
