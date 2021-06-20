@@ -9,6 +9,7 @@ import { InvoiceViewModel } from "../viewModels/InvoiceViewModel";
 import { Inline } from "./Inline";
 import styles from "./InvoicesListing.module.sass";
 import { Stack } from "./Stack";
+import { useSession } from "next-auth/client";
 
 type Props = {
   readonly invoices: readonly InvoiceViewModel[];
@@ -168,16 +169,16 @@ const InvoiceListingItem: React.FC<InvoiceListingItemProps> = ({
   };
 
   const put = async () => {
-    await fetch('/api/invoice', {
-      method: 'PUT',
+    await fetch("/api/invoice", {
+      method: "PUT",
       body: JSON.stringify({
         id: invoice.id,
         assigneeId: selectedAssignee,
         status: selectedStatus,
-      })
-    })
+      }),
+    });
     window.location.reload();
-  }
+  };
 
   return (
     <article key={invoice.id}>
@@ -261,21 +262,105 @@ const InvoiceListingItem: React.FC<InvoiceListingItemProps> = ({
   );
 };
 
+type Filter = {
+  readonly id: string;
+  readonly by: (invoice: InvoiceViewModel) => boolean;
+};
+
 export const InvoicesListing: React.FC<Props> = ({ invoices, assignees }) => {
+  const [session] = useSession();
+  console.log(session?.user);
+  const filters: readonly Filter[] = [
+    {
+      by: () => true,
+      id: "all",
+    },
+    {
+      by: (invoice) => invoice.assignee?.name === session.user.email,
+      id: "mine",
+    },
+    {
+      by: invoice => invoice.status === InvoiceStatus.New,
+      id: 'unassigned'
+    },
+    {
+      by: invoice => invoice.status === InvoiceStatus.InProgress,
+      id: 'in-progress'
+    },
+    {
+      by: invoice => invoice.status === InvoiceStatus.Archived,
+      id: 'archived'
+    }
+  ];
+  const [selectedFilter, setSelectedFilter] = React.useState("all");
   return (
     <div className={styles.invoices}>
-      {/*<Inline>Filter</Inline>  */}
-      <div className="invoices__list">
-        <Stack spacing={Spacing.M}>
-          {invoices.map((invoice) => (
-            <InvoiceListingItem
-              invoice={invoice}
-              key={invoice.id}
-              assignees={assignees}
-            />
-          ))}
-        </Stack>
-      </div>
+      <Stack spacing={Spacing.XL}>
+        <Inline spacing={Spacing.XL}>
+          <Inline spacing={Spacing.L}>
+            <a
+              href="#"
+              onClick={(event) => {
+                event.preventDefault();
+                setSelectedFilter("all");
+              }}
+            >
+              Všetky
+            </a>
+            <a
+              href="#"
+              onClick={(event) => {
+                event.preventDefault();
+                setSelectedFilter("mine");
+              }}
+            >
+              Moje
+            </a>
+          </Inline>
+          <Inline spacing={Spacing.L}>
+            <a
+              href="#"
+              onClick={(event) => {
+                event.preventDefault();
+                setSelectedFilter("unassigned");
+              }}
+            >
+              Nepriradené
+            </a>
+            <a
+              href="#"
+              onClick={(event) => {
+                event.preventDefault();
+                setSelectedFilter("in-progress");
+              }}
+            >
+              Spracúva sa
+            </a>
+            <a
+              href="#"
+              onClick={(event) => {
+                event.preventDefault();
+                setSelectedFilter("archived");
+              }}
+            >
+              Archivované
+            </a>
+          </Inline>
+        </Inline>
+        <div className="invoices__list">
+          <Stack spacing={Spacing.M}>
+            {invoices
+              .filter(filters.find((f) => f.id === selectedFilter).by)
+              .map((invoice) => (
+                <InvoiceListingItem
+                  invoice={invoice}
+                  key={invoice.id}
+                  assignees={assignees}
+                />
+              ))}
+          </Stack>
+        </div>
+      </Stack>
     </div>
   );
 };

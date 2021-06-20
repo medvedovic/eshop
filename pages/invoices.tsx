@@ -10,11 +10,6 @@ import type { AdminViewModel } from "../viewModels/AdminViewModel";
 import type { InvoiceViewModel } from "../viewModels/InvoiceViewModel";
 
 // todo: clear cart after submission
-
-const log = (name: string, object: any): void => {
-  console.log(`${name}: ${object}`);
-};
-
 type InvoicesProps = {
   readonly availableAssignees: readonly AdminViewModel[];
   readonly invoices: readonly InvoiceViewModel[];
@@ -25,7 +20,6 @@ const Invoices: NextPage<InvoicesProps> = ({
   invoices,
 }) => {
   const [session] = useSession();
-  log("Session", session?.user);
 
   return (
     <>
