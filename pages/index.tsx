@@ -32,6 +32,8 @@ type IndexProps = {
 
 const Index: NextPage<IndexProps> = ({ groupedProducts }) => {
   const [session] = useSession();
+  const [searchPhrase, setSearchPhrase] = React.useState<string>("");
+
   return (
     <>
       <Head>
@@ -41,24 +43,53 @@ const Index: NextPage<IndexProps> = ({ groupedProducts }) => {
       <div className="container">
         <main className="main">
           <div className="search">
-            <input className="search__box" placeholder="Vyhľadať" />
+            <input
+              className="search__box"
+              placeholder="Vyhľadať"
+              value={searchPhrase}
+              onChange={(e) => setSearchPhrase(e.target.value)}
+            />
           </div>
-          {groupedProducts.map(([group, products], index) => (
-            <MainSection title={group} key={index}>
-              <ProductGrid isCompact={products.length < 5}>
-                {products.map((product, index) => (
-                  <ProductTile
-                    codename={product.codename}
-                    key={index}
-                    photoUrl={product.photoUrl}
-                    price={product.price}
-                    productUrl={`/product/${product.productUrl}`}
-                    title={product.name}
-                  />
-                ))}
-              </ProductGrid>
-            </MainSection>
-          ))}
+          {groupedProducts
+            .filter(([group, products]) => {
+              const groupHit =
+                !searchPhrase ||
+                group.toLowerCase().includes(searchPhrase.toLowerCase());
+              return (
+                groupHit ||
+                products.some((product) =>
+                  product.name
+                    .toLowerCase()
+                    .includes(searchPhrase.toLowerCase())
+                )
+              );
+            })
+            .map(([group, products], index) => (
+              <MainSection title={group} key={index}>
+                <ProductGrid isCompact={products.length < 5}>
+                  {products
+                    .filter((product) => {
+                      return (
+                        !searchPhrase ||
+                        product.name
+                          .toLowerCase()
+                          .includes(searchPhrase.toLowerCase()) ||
+                        group.toLowerCase().includes(searchPhrase.toLowerCase())
+                      );
+                    })
+                    .map((product, index) => (
+                      <ProductTile
+                        codename={product.codename}
+                        key={index}
+                        photoUrl={product.photoUrl}
+                        price={product.price}
+                        productUrl={`/product/${product.productUrl}`}
+                        title={product.name}
+                      />
+                    ))}
+                </ProductGrid>
+              </MainSection>
+            ))}
         </main>
       </div>
     </>
