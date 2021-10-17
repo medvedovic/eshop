@@ -124,8 +124,8 @@ const Cart02: NextPage = () => {
                   </label>
                 </div>
                 <button className="cart__submit" type="submit">
-                    <ShoppingBag size={20} />
-                    Záväzne objednať
+                  <ShoppingBag size={20} />
+                  Záväzne objednať
                 </button>
               </Stack>
             </form>

@@ -1,26 +1,26 @@
-import {GetStaticPaths, GetStaticProps} from "next";
+import { GetStaticPaths, GetStaticProps } from "next";
 import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
-import {useSession} from "next-auth/client";
+import { useSession } from "next-auth/client";
 import React from "react";
 
-import {Counter} from "../../components/Counter";
-import {Inline} from "../../components/Inline";
-import {Navigation} from "../../components/Navigation";
-import {Stack} from "../../components/Stack";
-import {deliveryClient} from "../../constants/clients";
-import {Spacing} from "../../constants/ui";
-import {CartContext} from "../../contexts/Cart";
-import {Product as ProductModel} from "../../models/product";
-import {findByProductId} from "../../repositories/utils";
-import type {ProductDetailViewModel} from "../../viewModels/ProductDetail";
+import { Counter } from "../../components/Counter";
+import { Inline } from "../../components/Inline";
+import { Navigation } from "../../components/Navigation";
+import { Stack } from "../../components/Stack";
+import { deliveryClient } from "../../constants/clients";
+import { Spacing } from "../../constants/ui";
+import { CartContext } from "../../contexts/Cart";
+import { Product as ProductModel } from "../../models/product";
+import { findByProductId } from "../../repositories/utils";
+import type { ProductDetailViewModel } from "../../viewModels/ProductDetail";
 
 type ProductProps = {
   readonly product: ProductDetailViewModel;
 };
 
-const Product: React.FC<ProductProps> = ({product}) => {
+const Product: React.FC<ProductProps> = ({ product }) => {
   const [session] = useSession();
   const repo = React.useContext(CartContext);
   const isInCart = !!findByProductId(repo.get(), product.codename);
@@ -28,15 +28,15 @@ const Product: React.FC<ProductProps> = ({product}) => {
   const addProductToCart = () =>
     isInCart
       ? repo.update({
-        id: product.codename,
-        price: product.price,
-        count,
-      })
+          id: product.codename,
+          price: product.price,
+          count,
+        })
       : repo.add({
-        id: product.codename,
-        price: product.price,
-        count,
-      });
+          id: product.codename,
+          price: product.price,
+          count,
+        });
 
   return (
     <>
@@ -55,7 +55,7 @@ const Product: React.FC<ProductProps> = ({product}) => {
             </Inline>
           </header>
           <div className="product__img">
-            <Image src={product.photoUrl} width={1080} height={810}/>
+            <Image src={product.photoUrl} width={1080} height={810} />
           </div>
           <div className="product__details details">
             <Stack spacing={Spacing.L}>
@@ -64,7 +64,7 @@ const Product: React.FC<ProductProps> = ({product}) => {
                 <div className="details__head">
                   <div className="details__price">{product.price} czk</div>
                   <div className="details__count">
-                    <Counter count={count} setCount={setCount}/>
+                    <Counter count={count} setCount={setCount} />
                   </div>
                 </div>
                 <button onClick={addProductToCart} className="details__btn">

@@ -269,7 +269,6 @@ type Filter = {
 
 export const InvoicesListing: React.FC<Props> = ({ invoices, assignees }) => {
   const [session] = useSession();
-  console.log(session?.user);
   const filters: readonly Filter[] = [
     {
       by: () => true,
@@ -280,17 +279,17 @@ export const InvoicesListing: React.FC<Props> = ({ invoices, assignees }) => {
       id: "mine",
     },
     {
-      by: invoice => invoice.status === InvoiceStatus.New,
-      id: 'unassigned'
+      by: (invoice) => invoice.status === InvoiceStatus.New,
+      id: "unassigned",
     },
     {
-      by: invoice => invoice.status === InvoiceStatus.InProgress,
-      id: 'in-progress'
+      by: (invoice) => invoice.status === InvoiceStatus.InProgress,
+      id: "in-progress",
     },
     {
-      by: invoice => invoice.status === InvoiceStatus.Archived,
-      id: 'archived'
-    }
+      by: (invoice) => invoice.status === InvoiceStatus.Archived,
+      id: "archived",
+    },
   ];
   const [selectedFilter, setSelectedFilter] = React.useState("all");
   return (

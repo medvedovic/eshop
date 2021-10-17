@@ -28,9 +28,10 @@ type OrderUpdateModel = {
 };
 
 // https://stackoverflow.com/a/48244432
-type AtLeastOne<T, U = {[K in keyof T]: Pick<T, K> }> = Partial<T> & U[keyof U]
+type AtLeastOne<T, U = { [K in keyof T]: Pick<T, K> }> = Partial<T> &
+  U[keyof U];
 
-type NonEmptyOrderUpdateModel = AtLeastOne<OrderUpdateModel>
+type NonEmptyOrderUpdateModel = AtLeastOne<OrderUpdateModel>;
 
 type Invoice = Omit<InvoiceViewModel, "assignee"> & {
   readonly assigneeId: string;
@@ -61,7 +62,10 @@ type OrdersRepository = {
   readonly add: (createModel: OrderCreateModel) => Promise<string>;
   readonly initialize: () => void;
   readonly getAll: () => Promise<readonly Invoice[]>;
-  readonly update: (id: string, update: NonEmptyOrderUpdateModel) => Promise<void>;
+  readonly update: (
+    id: string,
+    update: NonEmptyOrderUpdateModel
+  ) => Promise<void>;
 };
 
 const connectionString = process.env.MONGODB_CONNECTION_STRING;

@@ -11,7 +11,7 @@ type TaxonomySelectorProps<T extends Readonly<Record<string, unknown>>> = {
   readonly getOptionName: (option: T) => string;
   readonly getOptionCodename: (option: T) => string;
   readonly title?: string;
-  readonly onChange?: (options: readonly string []) => void;
+  readonly onChange?: (options: readonly string[]) => void;
 };
 
 const getNewState = (state: ReadonlySet<string>, codename) =>
@@ -19,7 +19,9 @@ const getNewState = (state: ReadonlySet<string>, codename) =>
     ? new Set([...Array.from(state.values())].filter((el) => el !== codename))
     : new Set([...Array.from(state.values()), codename]);
 
-export function getTaxonomySelector<T extends Readonly<Record<string, unknown>>>(): React.ComponentType<TaxonomySelectorProps<T>> {
+export function getTaxonomySelector<
+  T extends Readonly<Record<string, unknown>>
+>(): React.ComponentType<TaxonomySelectorProps<T>> {
   const TaxonomySelector: React.FC<TaxonomySelectorProps<T>> = ({
     getOptionCodename,
     getOptionName,
@@ -28,7 +30,9 @@ export function getTaxonomySelector<T extends Readonly<Record<string, unknown>>>
     options,
     title,
   }) => {
-    const [state, setState] = React.useState<ReadonlySet<string>>(new Set<string>(initialSelectedOptions ?? []));
+    const [state, setState] = React.useState<ReadonlySet<string>>(
+      new Set<string>(initialSelectedOptions ?? [])
+    );
 
     return (
       <div>
