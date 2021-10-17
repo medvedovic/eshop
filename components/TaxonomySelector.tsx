@@ -5,7 +5,7 @@ import { Spacing } from "../constants/ui";
 import { Stack } from "./Stack";
 import styles from "./TaxonomySelector.module.sass";
 
-type TaxonomySelectorProps<T extends Readonly<Record<string, any>>> = {
+type TaxonomySelectorProps<T extends Readonly<Record<string, unknown>>> = {
   readonly options: readonly T[];
   readonly initialSelectedOptions?: readonly string[];
   readonly getOptionName: (option: T) => string;
@@ -19,7 +19,7 @@ const getNewState = (state: ReadonlySet<string>, codename) =>
     ? new Set([...Array.from(state.values())].filter((el) => el !== codename))
     : new Set([...Array.from(state.values()), codename]);
 
-export function getTaxonomySelector<T extends Readonly<Record<string, any>>>(): React.ComponentType<TaxonomySelectorProps<T>> {
+export function getTaxonomySelector<T extends Readonly<Record<string, unknown>>>(): React.ComponentType<TaxonomySelectorProps<T>> {
   const TaxonomySelector: React.FC<TaxonomySelectorProps<T>> = ({
     getOptionCodename,
     getOptionName,

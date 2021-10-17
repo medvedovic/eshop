@@ -83,7 +83,9 @@ export type Auth0UserProfile = {
   readonly created_at: string;
   readonly updated_at: string;
   readonly sub: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   readonly user_metadata?: any;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   readonly app_metadata?: any;
 };
 

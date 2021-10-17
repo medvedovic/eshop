@@ -2,15 +2,14 @@ import { NavArrowLeft, ShoppingBag } from "iconoir-react";
 import { NextPage } from "next";
 import Head from "next/head";
 import Link from "next/link";
-import React from "react";
 import { useRouter } from "next/router";
+import React from "react";
 
 import { Navigation } from "../../components/Navigation";
 import { Stack } from "../../components/Stack";
 import { Spacing } from "../../constants/ui";
-import { OrderServerModel } from "../../serverModels/Order";
 import { CartContext } from "../../contexts/Cart";
-import { Inline } from "../../components/Inline";
+import { OrderServerModel } from "../../serverModels/Order";
 
 const post = async (body: OrderServerModel) =>
   await fetch("/api/invoice/", {

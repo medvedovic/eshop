@@ -1,13 +1,13 @@
 import { NextApiRequest, NextApiResponse } from "next";
 
-import { OrdersRepository } from "../../repositories/order";
-import type { OrderServerModel } from "../../serverModels/Order";
 import { deliveryClient } from "../../constants/clients";
 import { Product as ProductKontentModel } from "../../models/product";
+import { OrdersRepository } from "../../repositories/order";
+import type { OrderServerModel } from "../../serverModels/Order";
 
 // Todo: RENAME TO ORDER !!!
 
-type ResponseData = {};
+type ResponseData = Record<string, never>;
 
 export const StatusCodes = {
   Ok: 200,
@@ -16,6 +16,7 @@ export const StatusCodes = {
   NotFound: 404,
 } as const;
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const isBodyValid = (obj: any): obj is OrderServerModel =>
   obj && obj.name && obj.email && obj.phone;
 
@@ -23,10 +24,10 @@ export default async (
   request: NextApiRequest,
   response: NextApiResponse<ResponseData>
 ): Promise<void> => {
-  if(request.method === 'PUT') {
+  if (request.method === "PUT") {
     // authorize
-    const {id, ...rest} = JSON.parse(request.body);
-    await OrdersRepository.update(id, rest)
+    const { id, ...rest } = JSON.parse(request.body);
+    await OrdersRepository.update(id, rest);
     response.status(StatusCodes.Ok).end();
     return;
   }
@@ -55,8 +56,7 @@ export default async (
       };
     });
 
-    // no need for order id
-    const orderId = await OrdersRepository.add({
+    await OrdersRepository.add({
       customer: {
         name: body.name,
         phone: body.phone,

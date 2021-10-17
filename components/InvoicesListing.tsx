@@ -1,5 +1,6 @@
 import classNames from "classnames";
 import { Cancel, EditPencil, NavArrowDown, NavArrowUp } from "iconoir-react";
+import { useSession } from "next-auth/client";
 import React from "react";
 
 import { InvoiceStatus } from "../constants/InvoiceStatus";
@@ -9,7 +10,6 @@ import { InvoiceViewModel } from "../viewModels/InvoiceViewModel";
 import { Inline } from "./Inline";
 import styles from "./InvoicesListing.module.sass";
 import { Stack } from "./Stack";
-import { useSession } from "next-auth/client";
 
 type Props = {
   readonly invoices: readonly InvoiceViewModel[];

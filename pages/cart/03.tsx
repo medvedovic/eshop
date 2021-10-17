@@ -1,7 +1,8 @@
-import Head from "next/head";
-import { Navigation } from "../../components/Navigation";
-import React from "react";
 import { NextPage } from "next";
+import Head from "next/head";
+import React from "react";
+
+import { Navigation } from "../../components/Navigation";
 
 const Cart03: NextPage = () => (
   <>
