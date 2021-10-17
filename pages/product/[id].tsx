@@ -2,7 +2,6 @@ import {GetStaticPaths, GetStaticProps} from "next";
 import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
-import {useRouter} from "next/router";
 import {useSession} from "next-auth/client";
 import React from "react";
 
@@ -22,8 +21,7 @@ type ProductProps = {
 };
 
 const Product: React.FC<ProductProps> = ({product}) => {
-  const [session, loading] = useSession();
-  const router = useRouter();
+  const [session] = useSession();
   const repo = React.useContext(CartContext);
   const isInCart = !!findByProductId(repo.get(), product.codename);
   const [count, setCount] = React.useState(0);
@@ -45,7 +43,7 @@ const Product: React.FC<ProductProps> = ({product}) => {
       <Head>
         <title>{product.name} | pb175 eshop</title>
       </Head>
-      <Navigation isAdmin={!!session}/>
+      <Navigation isAdmin={!!session} />
       <div className="container">
         <main className="main product">
           <header className="product__header">
@@ -54,11 +52,6 @@ const Product: React.FC<ProductProps> = ({product}) => {
                 <a className="product__back-btn">&lt; Späť na ponuku</a>
               </Link>
               <h1 className="product__title">{product.name}</h1>
-              {session && !loading && (
-                <Link href={`${router.asPath}/edit`}>
-                  <a className="product__back-btn">Upraviť</a>
-                </Link>
-              )}
             </Inline>
           </header>
           <div className="product__img">
