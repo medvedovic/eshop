@@ -3,7 +3,7 @@ import Head from "next/head";
 import { getSession, useSession } from "next-auth/client";
 import React from "react";
 
-import { InvoicesListing } from "../components/InvoicesListing";
+import { InvoicesListing } from "../components/invoices/InvoicesListing";
 import { Navigation } from "../components/Navigation";
 import { OrdersRepository } from "../repositories/order";
 import type { AdminViewModel } from "../viewModels/AdminViewModel";

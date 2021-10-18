@@ -1,0 +1,10 @@
+.selectable
+  display: flex
+  height: 20px
+
+  &__toggle
+    margin-left: 5px
+    display: none
+
+  &:not(.selectable--readonly):hover &__toggle
+    display: inline-flex

@@ -1,5 +1,5 @@
-@use "../styles/variables"
-@use "../styles/fonts"
+@use "../../styles/variables"
+@use "../../styles/fonts"
 @use "sass:list"
 
 .h2
@@ -68,14 +68,3 @@
   &__product
     display: flex
     justify-content: space-between
-
-.selectable
-  display: flex
-  height: 20px
-
-  &__toggle
-    margin-left: 5px
-    display: none
-
-  &:not(.selectable--readonly):hover &__toggle
-    display: inline-flex
