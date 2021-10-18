@@ -1,0 +1,25 @@
+@use "../styles/variables"
+@use "sass:list"
+
+.icon-button
+  $r: list.nth(variables.$color-grey, 1)
+  $g: list.nth(variables.$color-grey, 2)
+  $b: list.nth(variables.$color-grey, 3)
+  $color-light: rgba($r, $g, $b, .1)
+  $color-medium: darken(rgb($r $g $b), 15)
+  $color-dark: darken(rgb($r $g $b), 50)
+
+  background-color: transparent
+  border: none
+  padding: 0
+  display: inline-flex
+  transition: 200ms ease-out
+  border-radius: 2px
+  color: $color-medium
+  width: 20px
+  height: 20px
+  justify-content: center
+
+  &:hover
+    color: $color-dark
+    background-color: $color-light

@@ -11,6 +11,7 @@ import { Inline } from "./Inline";
 import styles from "./InvoicesListing.module.sass";
 import { Stack } from "./Stack";
 import { LinkLike } from "./LinkLike";
+import { IconButton } from "./Button";
 
 type Props = {
   readonly invoices: readonly InvoiceViewModel[];
@@ -58,16 +59,6 @@ type SelectableProps = {
   readonly onChange: React.ChangeEventHandler<HTMLSelectElement>;
   readonly onCancel: React.MouseEventHandler<HTMLButtonElement>;
 };
-
-type IconButtonProps = {
-  readonly onClick: React.MouseEventHandler<HTMLButtonElement>;
-};
-
-const IconButton: React.FC<IconButtonProps> = ({ onClick, children }) => (
-  <button className={styles["icon-button"]} onClick={onClick}>
-    {children}
-  </button>
-);
 
 const Selectable: React.FC<SelectableProps> = ({
   name,
