@@ -38,24 +38,17 @@ const Invoices: NextPage<InvoicesProps> = ({
 
 export default Invoices;
 
-const bearerToken = `Bearer ${process.env.AUTH0_MANAGEMENT_TOKEN}`;
-
 const getManagementToken = async () => {
-  const response = await fetch(
-    "https://medvedovic-test.eu.auth0.com/oauth/token",
-    {
-      method: "POST",
-      headers: new Headers([
-        ["content-type", "application/x-www-form-urlencoded"],
-      ]),
-      body: JSON.stringify({
-        grant_type: "client_credentials",
-        client_id: process.env.CLIENT_ID,
-        client_secret: process.env.CLIENT_SECRET,
-        audience: "https://medvedovic-test.eu.auth0.com/api/v2/",
-      }),
-    }
-  );
+  const response = await fetch(`https://${process.env.DOMAIN}/oauth/token`, {
+    method: "POST",
+    headers: new Headers([["content-type", "application/json"]]),
+    body: JSON.stringify({
+      grant_type: "client_credentials",
+      client_id: process.env.M2M_CLIENT_ID,
+      client_secret: process.env.M2M_CLIENT_SECRET,
+      audience: `https://${process.env.DOMAIN}/api/v2/`,
+    }),
+  });
 
   return await response.json();
 };
@@ -98,17 +91,13 @@ const toAdminViewModel = ({
 });
 
 const getAdmins = async (): Promise<readonly Auth0UserProfile[]> => {
-  const token = process.env.AUTH0_MANAGEMENT_TOKEN
-    ? bearerToken
-    : await getManagementToken();
+  const { access_token: accessToken } = await getManagementToken();
+  const bearerToken = `Bearer ${accessToken}`;
 
-  const response = await fetch(
-    "https://medvedovic-test.eu.auth0.com/api/v2/users",
-    {
-      method: "GET",
-      headers: new Headers([["Authorization", token]]),
-    }
-  );
+  const response = await fetch(`https://${process.env.DOMAIN}/api/v2/users`, {
+    method: "GET",
+    headers: new Headers([["Authorization", bearerToken]]),
+  });
 
   return await response.json();
 };
