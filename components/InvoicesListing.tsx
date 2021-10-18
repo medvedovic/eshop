@@ -10,6 +10,7 @@ import { InvoiceViewModel } from "../viewModels/InvoiceViewModel";
 import { Inline } from "./Inline";
 import styles from "./InvoicesListing.module.sass";
 import { Stack } from "./Stack";
+import { LinkLike } from "./LinkLike";
 
 type Props = {
   readonly invoices: readonly InvoiceViewModel[];
@@ -262,101 +263,58 @@ const InvoiceListingItem: React.FC<InvoiceListingItemProps> = ({
   );
 };
 
-type Filter = {
-  readonly id: string;
-  readonly by: (invoice: InvoiceViewModel) => boolean;
-};
+enum Filter {
+  All = "all",
+  Archived = "archived",
+  InProgress = "in-progress",
+  Mine = "mine",
+  Unassigned = "unassigned",
+}
 
 export const InvoicesListing: React.FC<Props> = ({ invoices, assignees }) => {
   const [session] = useSession();
-  const filters: readonly Filter[] = [
-    {
-      by: () => true,
-      id: "all",
-    },
-    {
-      by: (invoice) => invoice.assignee?.name === session.user.email,
-      id: "mine",
-    },
-    {
-      by: (invoice) => invoice.status === InvoiceStatus.New,
-      id: "unassigned",
-    },
-    {
-      by: (invoice) => invoice.status === InvoiceStatus.InProgress,
-      id: "in-progress",
-    },
-    {
-      by: (invoice) => invoice.status === InvoiceStatus.Archived,
-      id: "archived",
-    },
-  ];
-  const [selectedFilter, setSelectedFilter] = React.useState("all");
+  const filters: Record<Filter, (invoice: InvoiceViewModel) => boolean> = {
+    [Filter.All]: () => true,
+    [Filter.Archived]: (invoice) => invoice.status === InvoiceStatus.Archived,
+    [Filter.InProgress]: (invoice) =>
+      invoice.status === InvoiceStatus.InProgress,
+    [Filter.Mine]: (invoice) => invoice.assignee?.name === session.user.email,
+    [Filter.Unassigned]: (invoice) => invoice.status === InvoiceStatus.New,
+  };
+  const [selectedFilter, setSelectedFilter] = React.useState(Filter.All);
   return (
     <div className={styles.invoices}>
       <Stack spacing={Spacing.XL}>
         <Inline spacing={Spacing.XL}>
           <Inline spacing={Spacing.L}>
-            <a
-              href="#"
-              onClick={(event) => {
-                event.preventDefault();
-                setSelectedFilter("all");
-              }}
-            >
+            <LinkLike onClick={() => setSelectedFilter(Filter.All)}>
               Všetky
-            </a>
-            <a
-              href="#"
-              onClick={(event) => {
-                event.preventDefault();
-                setSelectedFilter("mine");
-              }}
-            >
+            </LinkLike>
+            <LinkLike onClick={() => setSelectedFilter(Filter.Mine)}>
               Moje
-            </a>
+            </LinkLike>
           </Inline>
           <Inline spacing={Spacing.L}>
-            <a
-              href="#"
-              onClick={(event) => {
-                event.preventDefault();
-                setSelectedFilter("unassigned");
-              }}
-            >
+            <LinkLike onClick={() => setSelectedFilter(Filter.Unassigned)}>
               Nepriradené
-            </a>
-            <a
-              href="#"
-              onClick={(event) => {
-                event.preventDefault();
-                setSelectedFilter("in-progress");
-              }}
-            >
+            </LinkLike>
+            <LinkLike onClick={() => setSelectedFilter(Filter.InProgress)}>
               Spracúva sa
-            </a>
-            <a
-              href="#"
-              onClick={(event) => {
-                event.preventDefault();
-                setSelectedFilter("archived");
-              }}
-            >
+            </LinkLike>
+            <LinkLike onClick={() => setSelectedFilter(Filter.Archived)}>
               Archivované
-            </a>
+            </LinkLike>
           </Inline>
         </Inline>
         <div className="invoices__list">
           <Stack spacing={Spacing.M}>
-            {invoices
-              .filter(filters.find((f) => f.id === selectedFilter).by)
-              .map((invoice) => (
-                <InvoiceListingItem
-                  invoice={invoice}
-                  key={invoice.id}
-                  assignees={assignees}
-                />
-              ))}
+            {invoices.filter(filters[selectedFilter]).map((invoice) => (
+              <InvoiceListingItem
+                invoice={invoice}
+                key={invoice.id}
+                assignees={assignees}
+              />
+            ))}
           </Stack>
         </div>
       </Stack>
