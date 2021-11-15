@@ -1,7 +1,7 @@
-import mongoose from "mongoose";
+import faunadb, { query as q, values } from "faunadb";
 
 import { InvoiceStatus } from "../constants/InvoiceStatus";
-import { Order as OrderDbModel } from "../dbModels/Order";
+import { Order } from "../dbModels/Order";
 import type { InvoiceViewModel } from "../viewModels/InvoiceViewModel";
 
 type OrderCreateModel = {
@@ -37,21 +37,21 @@ type Invoice = Omit<InvoiceViewModel, "assignee"> & {
   readonly assigneeId: string;
 };
 
-const toViewModel = (obj: OrderDbModel): Invoice => ({
-  status: obj.status,
-  id: obj._id.toString(),
-  assigneeId: obj.assigneeId ?? null,
+const toViewModel = ({ data, ref }: values.Document<Order>): Invoice => ({
+  status: data.status,
+  id: ref.id,
+  assigneeId: data.assigneeId ?? null,
   address: {
-    shipping: obj.address.shipping,
-    city: obj.address.city,
-    postalCode: obj.address.postalCode,
+    shipping: data.address.shipping,
+    city: data.address.city,
+    postalCode: data.address.postalCode,
   },
   customer: {
-    name: obj.customer.name,
-    phone: obj.customer.phone,
-    email: obj.customer.email,
+    name: data.customer.name,
+    phone: data.customer.phone,
+    email: data.customer.email,
   },
-  products: obj.products.map((product) => ({
+  products: data.products.map((product) => ({
     name: product.name,
     price: product.price,
     count: product.count,
@@ -59,44 +59,50 @@ const toViewModel = (obj: OrderDbModel): Invoice => ({
 });
 
 type OrdersRepository = {
-  readonly add: (createModel: OrderCreateModel) => Promise<string>;
-  readonly initialize: () => void;
+  readonly add: (createModel: OrderCreateModel) => Promise<Invoice>;
   readonly getAll: () => Promise<readonly Invoice[]>;
   readonly update: (
     id: string,
     update: NonEmptyOrderUpdateModel
-  ) => Promise<void>;
+  ) => Promise<Invoice>;
 };
 
-const connectionString = process.env.MONGODB_CONNECTION_STRING;
+const secret = process.env.FAUNADB_SECRET;
+const collectionName = "Orders";
+const client: faunadb.Client = new faunadb.Client({
+  secret,
+  domain: "db.eu.fauna.com",
+});
+
+type Response = {
+  readonly data: readonly values.Document<Order>[];
+};
 
 export const OrdersRepository: OrdersRepository = {
   getAll: async () => {
-    const result = await OrderDbModel.find({}).select(
-      "customer address products assigneeId status"
+    const response = await client.query<Response>(
+      q.Map(
+        q.Paginate(q.Documents(q.Collection(collectionName))),
+        q.Lambda((x) => q.Get(x))
+      )
     );
-    return result.map(toViewModel) as unknown as readonly Invoice[];
+    return response.data.map(toViewModel);
   },
   add: async (createModel: OrderCreateModel) => {
-    const a = new OrderDbModel({
-      status: InvoiceStatus.New,
-      assigneeId: undefined, // maybe omit
-      ...createModel,
-    });
-    const response = await a.save();
-    return response.id;
+    const response = await client.query<values.Document<Order>>(
+      q.Create(q.Collection(collectionName), {
+        data: { ...createModel, status: InvoiceStatus.New },
+      })
+    );
+    return toViewModel(response);
   },
   update: async (id, update) => {
-    await OrderDbModel.findByIdAndUpdate(id, update);
-  },
-  initialize: async () => {
-    await mongoose.connect(connectionString, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-      useFindAndModify: false,
-      useCreateIndex: true,
-    });
+    const response = await client.query<values.Document<Order>>(
+      q.Update(q.Ref(q.Collection(collectionName), id), {
+        data: { ...update },
+      })
+    );
+
+    return toViewModel(response);
   },
 };
-
-OrdersRepository.initialize();
